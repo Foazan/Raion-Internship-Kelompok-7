@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour
@@ -5,6 +6,12 @@ public class Teleport : MonoBehaviour
     [SerializeField]
     private Transform teleportTarget;   
     private bool isPlayerInRange = false;
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -30,6 +37,7 @@ public class Teleport : MonoBehaviour
             if (player != null && teleportTarget != null)
             {
                 player.transform.position = teleportTarget.position;
+          
             }
         }
     }
