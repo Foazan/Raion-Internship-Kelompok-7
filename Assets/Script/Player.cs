@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed;
-    public Rigidbody rb;
-    public SpriteRenderer sr;
+    [SerializeField]
+    private float speed;
+    private Rigidbody rb;
+    private SpriteRenderer sr;
 
     private void Start()
     {
