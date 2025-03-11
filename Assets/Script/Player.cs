@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField]private float Stress=0;
     private float Hunger=100;
     private float Sleep=100;
+    private Animator animator;
     public float getStress()
     {
         return Stress;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody>();
         sr = gameObject.GetComponent<SpriteRenderer>();
+        animator = gameObject.GetComponent<Animator>();
     }
     private void Update()
     {
@@ -38,10 +40,18 @@ public class Player : MonoBehaviour
         if (x != 0 && x < 0)
         {
             sr.flipX = true;
+            animator.SetBool("isWalking", true);
+            animator.SetFloat("input.-x", x);
         }
         else if (x != 0 && x > 0)
         {
             sr.flipX = false;
+            animator.SetBool("isWalking", true);
+            animator.SetFloat("input.x", x);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
         }
     }
 }
