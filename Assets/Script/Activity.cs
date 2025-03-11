@@ -1,47 +1,40 @@
 using UnityEngine;
 
-public class Activity : MonoBehaviour
+public abstract class Activity : MonoBehaviour
 {
-    public string activityName = "Aktivitas"; 
-    public float activityDuration = 5f; 
+    protected GameManager gameManager;
+    protected bool isInActivityZone = false;
+    protected bool isProcessingActivity = false; 
+    protected string activityName = "Aktivitas";
 
-    private bool isInActivityZone = false;
-    private bool isDoingActivity = false;
-    private GameManager gameManager;
-
-    void Start()
+    protected virtual void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if (isInActivityZone && !isDoingActivity && Input.GetKeyDown(KeyCode.Space))
+        if (isInActivityZone && Input.GetKeyDown(KeyCode.Space) && !isProcessingActivity)
         {
+            isProcessingActivity = true; 
+            Debug.Log($"Memulai {activityName}...");
             StartActivity();
         }
     }
 
-    void StartActivity()
-    {
-        isDoingActivity = true;
-        Debug.Log(activityName + " dimulai...");
-        Invoke("FinishActivity", activityDuration);
-    }
+    protected abstract void StartActivity();
 
-    void FinishActivity()
+    protected void EndActivity()
     {
-        isDoingActivity = false;
-        Debug.Log(activityName + " selesai!");
-        gameManager.AdvanceTime(); 
+        isProcessingActivity = false; 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isInActivityZone)
         {
             isInActivityZone = true;
-            Debug.Log("Dekat dengan " + activityName);
+            Debug.Log($"Tekan SPACE untuk memulai {activityName}");
         }
     }
 
