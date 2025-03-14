@@ -5,26 +5,47 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     private Rigidbody rb;
     private SpriteRenderer sr;
-    [SerializeField]private float Stress=0;
-    private float Hunger=100;
-    private float Sleep=100;
+    [SerializeField] private float Stress=0;
+    [SerializeField] private float Hunger=100;
+    [SerializeField] private float Sleep=100;
+    [SerializeField] private float Money = 1000;
     private Animator animator;
     public float getStress()
     {
         return Stress;
     }
 
-    private void addStress(float Stress)
+    public float getMoney()
     {
-        this.Stress= Stress;
+        return Money;
     }
-    private void addHunger(float Hunger)
+
+    public float getHunger()
     {
-        this.Hunger= Hunger;
+        return Hunger;
     }
-    private void addSleep(float Sleep)
+
+    public float getSleep()
     {
-        this.Sleep= Sleep;
+        return Sleep;
+    }
+
+    public void addStress(float Stress)
+    {
+        this.Stress += Stress;
+    }
+    public void addHunger(float Hunger)
+    {
+        this.Hunger += Hunger;
+    }
+    public void addSleep(float Sleep)
+    {
+        this.Sleep += Sleep;
+    }
+
+    public void addMoney(float Money)
+    {
+        this.Money += Money;
     }
     private void Start()
     {

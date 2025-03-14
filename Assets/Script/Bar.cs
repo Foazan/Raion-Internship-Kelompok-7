@@ -14,7 +14,7 @@ public class Bar : MonoBehaviour
 
         void Update()
         {
-        bar.fillAmount = player.getStress()/100;
+        bar.fillAmount = player.getStress();
         }
     }
 
