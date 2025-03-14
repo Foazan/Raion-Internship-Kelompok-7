@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MinimarketActivity : Activity
@@ -44,6 +45,7 @@ public class MinimarketActivity : Activity
         {
             GiveChange();
         }
+       
     }
     protected override void StartActivity()
     {
@@ -141,4 +143,10 @@ public class MinimarketActivity : Activity
         screenOrder.Clear();
         Debug.Log("Transaksi selesai! Terima kasih telah berbelanja.");
     }
+    private TextMeshPro CashierGUI;
+    private void spawnTotalPrice()
+    {
+         
+    }
+
 }
