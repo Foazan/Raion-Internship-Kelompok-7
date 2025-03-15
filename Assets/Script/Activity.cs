@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class Activity : MonoBehaviour
 {
     protected GameManager gameManager;
+    protected UI_Manager uiManager;
     protected bool isInActivityZone = false;
     protected bool isProcessingActivity = false; 
     protected string activityName = "Aktivitas";
@@ -10,11 +11,12 @@ public abstract class Activity : MonoBehaviour
     protected virtual void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
     }
 
     protected virtual void Update()
     {
-        if (isInActivityZone && Input.GetKeyDown(KeyCode.Space) && !isProcessingActivity)
+        if (isInActivityZone && Input.GetKeyDown(KeyCode.E) && !isProcessingActivity)
         {
             isProcessingActivity = true; 
             Debug.Log($"Memulai {activityName}...");
@@ -22,9 +24,12 @@ public abstract class Activity : MonoBehaviour
         }
     }
 
-    protected abstract void StartActivity();
+    protected virtual void StartActivity()
+    {
+        uiManager.HideInteractMessage();
+    }
 
-    protected void EndActivity()
+    protected virtual void EndActivity()
     {
         isProcessingActivity = false; 
     }
@@ -36,6 +41,8 @@ public abstract class Activity : MonoBehaviour
             isInActivityZone = true;
             Debug.Log($"Tekan SPACE untuk memulai {activityName}");
         }
+
+        uiManager.ShowInteractMessage();
     }
 
     private void OnTriggerExit(Collider other)
@@ -44,5 +51,7 @@ public abstract class Activity : MonoBehaviour
         {
             isInActivityZone = false;
         }
+
+        uiManager.HideInteractMessage();
     }
 }

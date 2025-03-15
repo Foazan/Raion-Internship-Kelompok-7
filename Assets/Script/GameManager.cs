@@ -3,16 +3,30 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    public string currentTime = "Pagi"; // Mulai dari pagi
-    private string[] timeBlocks = { "Pagi", "Siang", "Sore", "Malam" }; 
+    public string currentTime = "Pagi"; 
+    private string[] timeBlocks = { "Pagi", "Siang", "Malam" };
     private int currentBlockIndex = 0;
-
-    public Transform homePosition; 
-    public event Action<string> OnTimeBlockChanged; 
+    private TimeFilterManager timeFilterManager;
+    public Transform homePosition;
+    public event Action<string> OnTimeBlockChanged;
+    private UI_Manager uiManager;
+    public Camera mainCamera;
+    public Camera restaurantCamera;
+    public Canvas canvas;
 
     void Start()
     {
-        UpdateTimeBlock();
+        timeFilterManager = GameObject.Find("TimeFilterManager").GetComponent<TimeFilterManager>();
+        uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+        if (timeFilterManager == null)
+        {
+            Debug.LogError("TimeFilterManager tidak ditemukan di scene!");
+        }
+        else
+        {
+            Debug.Log("TimeFilterManager berhasil ditemukan!");
+        }
+        UpdateTimeBlock(); 
     }
 
     public void AdvanceTime()
@@ -21,7 +35,6 @@ public class GameManager : MonoBehaviour
 
         if (currentBlockIndex >= timeBlocks.Length)
         {
-            // Reset ke pagi hari berikutnya
             currentBlockIndex = 0;
             Debug.Log("Hari Baru Dimulai!");
         }
@@ -31,18 +44,52 @@ public class GameManager : MonoBehaviour
 
         if (currentTime == "Malam")
         {
-            // Saat malam, otomatis pulang ke rumah
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                player.transform.position = homePosition.position;
-            }
+            MovePlayerHome(); 
         }
     }
 
     void UpdateTimeBlock()
     {
         Debug.Log("Waktu sekarang: " + currentTime);
-        OnTimeBlockChanged?.Invoke(currentTime); // Beri tahu sistem lain kalau waktu berubah
+        OnTimeBlockChanged?.Invoke(currentTime); 
+
+        // Terapkan filter waktu
+        if (timeFilterManager != null)
+        {
+            if (currentTime == "Pagi")
+                timeFilterManager.SetMorningFilter();
+            else if (currentTime == "Siang")
+                timeFilterManager.SetNoonFilter();
+            else if (currentTime == "Malam")
+                timeFilterManager.SetNightFilter();
+        }
+    }
+
+    void MovePlayerHome()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null && homePosition != null)
+        {
+            player.transform.position = homePosition.position;
+            Debug.Log("Player otomatis pulang ke rumah.");
+        }
+        else
+        {
+            Debug.LogWarning("Player atau Home Position tidak ditemukan!");
+        }
+    }
+
+    public void SwitchToRestaurantView()
+    {
+        restaurantCamera.gameObject.SetActive(true);
+        mainCamera.gameObject.SetActive(false);
+        canvas.worldCamera = restaurantCamera;
+    }
+
+    public void SwitchToMainView()
+    {
+        restaurantCamera.gameObject.SetActive(false);
+        mainCamera.gameObject.SetActive(true);
+        canvas.worldCamera = mainCamera;
     }
 }

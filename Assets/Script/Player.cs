@@ -5,11 +5,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     private Rigidbody rb;
     private SpriteRenderer sr;
+    private UI_Manager uiManager;
     [SerializeField] private float Stress=0;
     [SerializeField] private float Hunger=100;
     [SerializeField] private float Sleep=100;
     [SerializeField] private float Money = 1000;
     private Animator animator;
+    private bool isNearNpc = false;
     public float getStress()
     {
         return Stress;
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
+        uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
     }
     private void Update()
     {
@@ -73,6 +76,53 @@ public class Player : MonoBehaviour
         else
         {
             animator.SetBool("isWalking", false);
+        }
+
+        CheckForNpcInteraction();
+
+        if (isNearNpc && Input.GetKeyDown(KeyCode.E))
+        {
+            InteractWithNpc();
+        }
+    }
+
+    private void CheckForNpcInteraction()
+    {
+        float interactRange = 1f;
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+        bool foundNpc = false;
+
+        foreach (Collider collider in colliderArray)
+        {
+            if (collider.TryGetComponent(out NpcManager npcManager))
+            {
+                foundNpc = true;
+                break;
+            }
+        }
+
+        if (foundNpc && !isNearNpc)
+        {
+            isNearNpc = true;
+            uiManager.ShowInteractMessage();
+        }
+        else if (!foundNpc && isNearNpc)
+        {
+            isNearNpc = false;
+            uiManager.HideInteractMessage();
+        }
+    }
+
+    private void InteractWithNpc()
+    {
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position, 1f);
+        foreach (Collider collider in colliderArray)
+        {
+            if (collider.TryGetComponent(out NpcManager npcManager))
+            {
+                npcManager.Interact();
+                break;
+            }
         }
     }
 }

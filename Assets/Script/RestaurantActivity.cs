@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 public class RestaurantActivity : Activity
 {
     private Dictionary<string, int> playerOrder = new Dictionary<string, int>();
     private Dictionary<string, int> customerOrder = new Dictionary<string, int>();
-    private int currentOrderIndex = 0;
     private bool isOrdering = false;
     private System.Random random = new System.Random();
-    private UI_Manager uiManager;
+    
 
     private string[] menuItems =
     {
@@ -17,16 +17,13 @@ public class RestaurantActivity : Activity
         "Coffee", "Ice Cream", "Salad", "Steak"
     };
 
-    
     private Player player;
 
     protected override void Start()
     {
         base.Start();
         activityName = "Melayani Pelanggan";
-        uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        
     }
 
     protected override void Update()
@@ -42,41 +39,25 @@ public class RestaurantActivity : Activity
                 return;
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            SkipItem();
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (currentOrderIndex >= customerOrder.Count) 
-            {
-                uiManager.ShowText("Anything else? Tekan spasi jika pesanan selesai.");
-                ConfirmOrder();
-            }
-        }
     }
-
-
 
     protected override void StartActivity()
     {
+        uiManager.HideInteractMessage();
         if (isOrdering) return;
-        
+
         isOrdering = true;
-        currentOrderIndex = 0;
         playerOrder.Clear();
         customerOrder.Clear();
 
         GenerateRandomOrder();
-        uiManager.SwitchToRestaurantView();
+        gameManager.SwitchToRestaurantView();
 
-        uiManager.ShowText($"Memulai {activityName}...");
-        uiManager.ShowText($"Pelanggan akan memesan {customerOrder.Count} item.");
+        uiManager.ShowText($"Memulai {activityName}...", "Kasir");
+        uiManager.ShowText($"Saya akan memesan {GetTotalOrderCount()} item.", "Pelanggan");
 
-        ShowNextOrderItem();
+        ShowOrderSummary();
+        ShowMenu();
     }
 
     private void GenerateRandomOrder()
@@ -94,64 +75,82 @@ public class RestaurantActivity : Activity
         }
     }
 
-    private void ShowNextOrderItem()
+    private int GetTotalOrderCount()
     {
-        if (currentOrderIndex == 0)
+        int total = 0;
+        foreach (var item in customerOrder)
         {
-            uiManager.ShowText($"Pesanan pelanggan:");
-            foreach (var item in customerOrder)
-            {
-                uiManager.ShowText($"- {item.Key} x{item.Value}");
-            }
+            total += item.Value;
         }
-        ShowMenu();
+        return total;
+    }
+
+    private void ShowOrderSummary()
+    {
+        uiManager.ShowText($"Saya Mau Pesan:", "Pelanggan");
+        foreach (var item in customerOrder)
+        {
+            uiManager.ShowText($"- {item.Key} x{item.Value}", "Pelanggan");
+        }
     }
 
     private void ShowMenu()
     {
-        string menuMessage = "Pilih menu:\n";
-        
-
         uiManager.ShowMenuUI();
-        uiManager.ShowText(menuMessage);
+        uiManager.ShowText("Silakan pilih menu.", "Kasir");
     }
 
     private void AddItem(string item)
     {
         if (!playerOrder.ContainsKey(item))
             playerOrder[item] = 0;
-        
+
         playerOrder[item]++;
-        uiManager.Displaytext();
-        currentOrderIndex++;
-        ShowNextOrderItem();
+        uiManager.DisplayOrder();
+
+        ShowAddedItem(item);
+
+        if (IsOrderComplete())
+        {
+            uiManager.ShowText("Anything else? Tekan Spasi jika pesanan selesai.", "Kasir");
+            ConfirmOrder();
+        }
     }
 
-    private void SkipItem()
+    private bool IsOrderComplete()
     {
-        uiManager.ShowText($"Pelanggan: Baik, tidak jadi pesan {GetOrderItemAtIndex(currentOrderIndex)}.");
-        currentOrderIndex++;
-        ShowNextOrderItem();
+        int totalCustomerOrder = customerOrder.Values.Sum();
+        int totalPlayerOrder = playerOrder.Values.Sum();
+
+        return totalPlayerOrder == totalCustomerOrder;
     }
+
 
     private void ConfirmOrder()
     {
-        uiManager.ShowText("Pelanggan: Ini pesanan saya? Mari kita cek...");
-        bool isCorrect = CheckOrder();
+        uiManager.ShowText("Ini pesanan saya? Saya cek dulu", "Pelanggan");
+        StartCoroutine(ConfirmOrderWithDelay());
+    }
 
+    private IEnumerator ConfirmOrderWithDelay()
+    {
+        yield return new WaitForSeconds(2f);
+
+        bool isCorrect = CheckOrder();
         if (isCorrect)
         {
-            uiManager.ShowText("Pelanggan: Wah, pesanan saya sudah benar! Terima kasih!");
+            uiManager.ShowText("Wah, pesanan saya sudah benar! Terima kasih!", "Pelanggan");
             player.addMoney(10);
             player.addStress(-5);
         }
         else
         {
-            uiManager.ShowText("Pelanggan: Ini bukan pesanan saya! Saya kecewa!");
+            uiManager.ShowText("Ini bukan pesanan saya! Saya kecewa!", "Pelanggan");
             player.addStress(10);
         }
 
-        StartCoroutine(FinishOrderWithDelay());
+        yield return new WaitForSeconds(2f);
+        FinishOrder();
     }
 
     private bool CheckOrder()
@@ -166,32 +165,31 @@ public class RestaurantActivity : Activity
         return true;
     }
 
-    private void FinishOrder()
+    private void ShowAddedItem(string item)
     {
-        isOrdering = false;
-        
-        uiManager.ShowText("Pesanan selesai!");
-        uiManager.HideMenuUI();
-        uiManager.SwitchToMainView();
-        gameManager.AdvanceTime();
+        uiManager.ShowText($"Sudah memasukkan {item}.", "Kasir");
     }
 
-    private string GetOrderItemAtIndex(int index)
+    private void FinishOrder()
     {
-        int count = 0;
-        foreach (var item in customerOrder)
-        {
-            if (count == index)
-                return item.Key;
-            count++;
-            
-        }
-        return null;
+        StartCoroutine(FinishOrderWithDelay());
+    }
+
+    protected override void EndActivity()
+    {
+        isOrdering = false;
+        isProcessingActivity = false;
     }
 
     private IEnumerator FinishOrderWithDelay()
     {
-        yield return new WaitForSeconds(10f); 
-        FinishOrder();
+        uiManager.ShowText("Pesanan selesai!", "Kasir");
+        yield return new WaitForSeconds(5f);
+
+        uiManager.HideMenuUI();
+        uiManager.HideText();
+        gameManager.SwitchToMainView();
+        gameManager.AdvanceTime();
+        EndActivity();
     }
 }

@@ -2,40 +2,34 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 
 public class UI_Manager : MonoBehaviour
 {
-    public TextMeshProUGUI dialogueText; // Komponen UI TextMeshPro untuk dialog
+    public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI speakerNameText;
+    public GameObject interactMessage;
     [SerializeField] GameObject menuText;
-    [SerializeField] GameObject menuBox;
     private Queue<string> textQueue = new Queue<string>();
+    private Queue<string> nameQueue = new Queue<string>(); 
     private bool isTextDisplaying = false;
-    public Camera mainCamera;
-    public Camera restaurantCamera;
     public Canvas canvas;
-
 
     private void Start()
     {
-        menuBox.SetActive(false);
+        
         menuText.SetActive(false);
+        interactMessage.SetActive(false);
+        speakerNameText.text = ""; 
     }
 
-    private void Update()
-    {
-        
-    }
-    public void ShowText(string text)
+    public void ShowText(string text, string speakerName = "")
     {
         textQueue.Enqueue(text);
-
+        nameQueue.Enqueue(speakerName); 
         if (!isTextDisplaying)
         {
             StartCoroutine(DisplayText());
         }
-
-        
     }
 
     private IEnumerator DisplayText()
@@ -46,63 +40,64 @@ public class UI_Manager : MonoBehaviour
         {
             dialogueText.text = "";
             string currentText = textQueue.Dequeue();
+            string currentSpeaker = nameQueue.Dequeue(); 
+
+            speakerNameText.text = string.IsNullOrEmpty(currentSpeaker) ? "" : currentSpeaker;
 
             foreach (char letter in currentText)
             {
                 dialogueText.text += letter;
-                yield return new WaitForSeconds(0.02f); 
+                yield return new WaitForSeconds(0.02f);
             }
 
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space)); 
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         }
 
         isTextDisplaying = false;
+        speakerNameText.text = ""; 
     }
 
     public void ClearText()
     {
         textQueue.Clear();
+        nameQueue.Clear();
         dialogueText.text = "";
+        speakerNameText.text = "";
         isTextDisplaying = false;
     }
 
     public void ShowMenuUI()
     {
-        menuBox.SetActive(true);
+        
         menuText.SetActive(true);
     }
 
     public void HideMenuUI()
     {
-        menuBox.SetActive(false);
+        
         menuText.SetActive(false);
     }
 
-    public void ForceShowText(string text)
-    {
-        StopAllCoroutines(); // Hentikan animasi teks sebelumnya
-        dialogueText.text = text; // Langsung ganti teks
-        
-            
-    }
-
-    public void SwitchToRestaurantView()
-    {
-        restaurantCamera.gameObject.SetActive(true);
-        mainCamera.gameObject.SetActive(false);
-        canvas.worldCamera = restaurantCamera;
-    }
-
-    public void SwitchToMainView()
-    {
-        restaurantCamera.gameObject.SetActive(false);
-        mainCamera.gameObject.SetActive(true);
-        canvas.worldCamera = mainCamera;
-    }
-
-    public void Displaytext()
+    public void DisplayOrder()
     {
         StopAllCoroutines();
         isTextDisplaying = false;
     }
+
+    public void HideText()
+    {
+        speakerNameText.text = "";
+        dialogueText.text = ""; 
+    }
+
+    public void ShowInteractMessage()
+    {
+        interactMessage.SetActive(true);
+    }
+
+    public void HideInteractMessage()
+    {
+        interactMessage.SetActive(false);
+    }
+
 }
