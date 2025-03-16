@@ -4,86 +4,74 @@ using UnityEngine;
 
 public class MinimarketActivity : Activity
 {
-    Dictionary<string, float> customerOrder = new Dictionary<string, float>();
-    Dictionary<string,float> screenOrder = new Dictionary<string, float>();
-    private bool isScanning = false;
-    private bool isGivingChange = false;
-    private bool screenDisplayedOrder = false;
+    private Dictionary<string, float> customerOrder = new Dictionary<string, float>();
+    private float totalAmount = 0f; 
+    private float paymentAmount = 0f; 
+    private float changeAmount = 0f;
+    private TextMeshProUGUI CashierText;
+
+
     private string[] listBarang =
     {
-    "Snack", "Tissue", "Sabun", "Minuman", "Roti",
-    "Sampo", "Pasta Gigi", "Sabun Cuci", "Baterai", "Kopi",
-    "Teh", "Gula", "Garam", "Minyak Goreng", "Kecap",
-    "Saus", "Mie Instan", "Biskuit", "Coklat", "Susu"
+        "Snack", "Tissue", "Sabun", "Minuman", "Roti",
+        "Sampo", "Pasta Gigi", "Sabun Cuci", "Baterai", "Kopi",
+        "Teh", "Gula", "Garam", "Minyak Goreng", "Kecap",
+        "Saus", "Mie Instan", "Biskuit", "Coklat", "Susu"
     };
+    private float[] listUang =
+    {
+        0.50f,1f,2f,5f,10f,20f,50f,100f
+    };
+
     protected override void Start()
     {
         base.Start();
         activityName = "Melayani Pembeli";
+        CashierText = GameObject.Find("ScreenUI").GetComponent<TextMeshProUGUI>();
+        StartActivity();
     }
+
     protected override void Update()
     {
-        base.Update();
-        if (!isScanning) return;
-        if (isGivingChange) return;
-
-        for (int i = 0; i < listBarang.Length; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                ScanItem(listBarang[i]);
-                return;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return) && !screenDisplayedOrder)
-        {
-            DisplayOrder();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            GiveChange();
-        }
-       
+        
     }
+
     protected override void StartActivity()
     {
-        if (isScanning) return;
-
-        isScanning = true;
         customerOrder.Clear();
-        screenOrder.Clear();
-        screenDisplayedOrder = false;
-
+        totalAmount = 0f; 
         Debug.Log($"Memulai {activityName}...");
+
+        GenerateRandomOrder();
+        GenerateRandomPayment(totalAmount);
+        UpdateTotalDisplay();
+        Debug.Log("Dia Bayar " + paymentAmount + " leee");
     }
 
-    private void ScanItem(string item)
+    private void GenerateRandomOrder()
     {
-        float price = GetItemPrice(item);
-        if (price > 0)
+        int numberOfItems = Random.Range(1, 9); //random 1-8 barang
+        for (int i = 0; i < numberOfItems; i++)
         {
-            if (!customerOrder.ContainsKey(item))
-                customerOrder[item] = 0;
+            string randomItem = listBarang[Random.Range(0, listBarang.Length)];
+            int quantity = Random.Range(1, 4); // jumlah 1-3
 
-            customerOrder[item] += price;
-            Debug.Log($"Ditambahkan: {item} - Harga: {price}. Total: {customerOrder[item]}");
+            float price = GetItemPrice(randomItem);
+            if (price > 0)
+            {
+                if (!customerOrder.ContainsKey(randomItem))
+                    customerOrder[randomItem] = 0;
 
-            if (!screenOrder.ContainsKey(item))
-                screenOrder[item] = 0;
-
-            screenOrder[item] += price;
-        }
-        else
-        {
-            Debug.Log($"Item {item} tidak ditemukan.");
+                customerOrder[randomItem] += price * quantity; // Update total item
+                totalAmount += price * quantity; // Update total harga
+                UpdateTotalDisplay();
+                Debug.Log($"Ditambahkan: {randomItem} - Harga: {price} x {quantity}. Total: {totalAmount}");
+            }
         }
     }
 
     private float GetItemPrice(string item)
     {
-
         switch (item)
         {
             case "Snack": return 1.50f;
@@ -106,47 +94,65 @@ public class MinimarketActivity : Activity
             case "Biskuit": return 1.00f;
             case "Coklat": return 1.50f;
             case "Susu": return 1.20f;
-            default: return 0f; 
+            default: return 0f;
         }
     }
 
-    private void DisplayOrder()
+    private void GenerateRandomPayment(float price)
     {
-        if (!screenDisplayedOrder)
-        {
-            Debug.Log("Pesanan pelanggan:");
-            foreach (var item in screenOrder)
+        int i = listUang.Length;
+        while (paymentAmount <= price )
             {
-                Debug.Log($"- {item.Key}: {item.Value}");
+            if (price - paymentAmount < listUang[i-1])
+            {
+                paymentAmount += listUang[Random.Range(2, i )];
+                if (i < 4) {
+                    i--;
+                }
+                
             }
-            screenDisplayedOrder = true;
-            Debug.Log("Tekan 'G' untuk memberikan kembalian.");
-        }
+
+            }
     }
 
-    private void GiveChange()
+    public void GiveChangeDone()
     {
-        if (!screenDisplayedOrder) return;
-
-        Debug.Log("Memberikan kembalian kepada pelanggan...");
-        isGivingChange = true;
-
-        Invoke("FinishTransaction", 2f); 
+        changeAmount = paymentAmount - totalAmount;
+        if (changeAmount != paymentAmount - totalAmount) 
+        {
+            Debug.Log("Salah bodo");
+            FinishTransaction();
+        }
+        else
+        {
+            Debug.Log("Anjay bener");
+            FinishTransaction();
+        }
+    
     }
-
     private void FinishTransaction()
     {
-        isGivingChange = false;
-        isScanning = false;
-        screenDisplayedOrder = false;
+        totalAmount = 0f;
+        paymentAmount = 0f;
+        changeAmount = 0f;
         customerOrder.Clear();
-        screenOrder.Clear();
-        Debug.Log("Transaksi selesai! Terima kasih telah berbelanja.");
-    }
-    private TextMeshPro CashierGUI;
-    private void spawnTotalPrice()
-    {
-         
+        UpdateTotalDisplay();
+        StartActivity();
     }
 
+    private void UpdateTotalDisplay()
+    {
+        CashierText.text = $"Total     : {totalAmount:F2}\n" +
+                           $"Pembayaran: {paymentAmount:F2}\n" +
+                           $"Kembalian : {changeAmount:F2}";
+    }
+    public void addChange(float a)
+    {
+        changeAmount += a;
+    }
+
+    public void subtractChange(float a)
+    {
+        changeAmount -= a;
+    }
 }

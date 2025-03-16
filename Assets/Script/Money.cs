@@ -8,6 +8,7 @@ public class Money : MonoBehaviour
     private Vector3 OriginalPosition;
     private Quaternion OriginalRotation;
     public GameObject Duit;
+
     private bool child;
 
     private bool isMoving = false; 
@@ -52,7 +53,6 @@ public class Money : MonoBehaviour
         {
             float step = 0.2f * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, OriginalPosition, step);
-
             if (Vector3.Distance(transform.position, OriginalPosition) < 0.01f)
             {
                 Destroy(gameObject);
