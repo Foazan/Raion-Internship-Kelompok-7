@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class Teleport : MonoBehaviour
 {
@@ -37,12 +38,17 @@ public class Teleport : MonoBehaviour
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null && teleportTarget != null)
-            {
-                player.transform.position = teleportTarget.position;
-          
-            }
+            StartCoroutine(TeleportPlayer());
+        }
+    }
+
+    private IEnumerator TeleportPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null && teleportTarget != null)
+        {
+            player.transform.position = teleportTarget.position;
+            yield return StartCoroutine(uiManager.ShowBlackScreen(1f)); 
         }
     }
 }

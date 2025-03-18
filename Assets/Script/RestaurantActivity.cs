@@ -9,7 +9,6 @@ public class RestaurantActivity : Activity
     private Dictionary<string, int> customerOrder = new Dictionary<string, int>();
     private bool isOrdering = false;
     private System.Random random = new System.Random();
-    
 
     private string[] menuItems =
     {
@@ -43,15 +42,14 @@ public class RestaurantActivity : Activity
 
     protected override void StartActivity()
     {
+        gameManager.SwitchToRestaurantView();
         uiManager.HideInteractMessage();
         if (isOrdering) return;
-
         isOrdering = true;
         playerOrder.Clear();
         customerOrder.Clear();
-
+        uiManager.ShowRestaurantBackground();
         GenerateRandomOrder();
-        gameManager.SwitchToRestaurantView();
 
         uiManager.ShowText($"Memulai {activityName}...", "Kasir");
         uiManager.ShowText($"Saya akan memesan {GetTotalOrderCount()} item.", "Pelanggan");
@@ -125,7 +123,6 @@ public class RestaurantActivity : Activity
         return totalPlayerOrder == totalCustomerOrder;
     }
 
-
     private void ConfirmOrder()
     {
         uiManager.ShowText("Ini pesanan saya? Saya cek dulu", "Pelanggan");
@@ -184,11 +181,11 @@ public class RestaurantActivity : Activity
     private IEnumerator FinishOrderWithDelay()
     {
         uiManager.ShowText("Pesanan selesai!", "Kasir");
-        yield return new WaitForSeconds(5f);
-
+        yield return new WaitForSeconds(3f);
+        gameManager.SwitchToMainView();
         uiManager.HideMenuUI();
         uiManager.HideText();
-        gameManager.SwitchToMainView();
+        uiManager.HideRestaurantBackground();
         gameManager.AdvanceTime();
         EndActivity();
     }

@@ -2,30 +2,40 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI speakerNameText;
     public GameObject interactMessage;
-    [SerializeField] GameObject menuText;
+    [SerializeField] private GameObject menuText;
+    [SerializeField] private GameObject npcPortrait;
+    [SerializeField] private GameObject npcPortraitCenter;
+    [SerializeField] private GameObject RestaurantBackground;
+    public Image blackScreen;
     private Queue<string> textQueue = new Queue<string>();
-    private Queue<string> nameQueue = new Queue<string>(); 
+    private Queue<string> nameQueue = new Queue<string>();
     private bool isTextDisplaying = false;
     public Canvas canvas;
 
     private void Start()
     {
-        
         menuText.SetActive(false);
         interactMessage.SetActive(false);
-        speakerNameText.text = ""; 
+        HideRestaurantBackground();
+        npcPortrait.SetActive(false);
+        npcPortraitCenter.SetActive(false);
+        RestaurantBackground.SetActive(false);
+        speakerNameText.text = "";
+        if (blackScreen == null)
+            blackScreen = GetComponent<Image>();
     }
 
     public void ShowText(string text, string speakerName = "")
     {
         textQueue.Enqueue(text);
-        nameQueue.Enqueue(speakerName); 
+        nameQueue.Enqueue(speakerName);
         if (!isTextDisplaying)
         {
             StartCoroutine(DisplayText());
@@ -40,9 +50,11 @@ public class UI_Manager : MonoBehaviour
         {
             dialogueText.text = "";
             string currentText = textQueue.Dequeue();
-            string currentSpeaker = nameQueue.Dequeue(); 
+            string currentSpeaker = nameQueue.Dequeue();
 
             speakerNameText.text = string.IsNullOrEmpty(currentSpeaker) ? "" : currentSpeaker;
+
+            ShowNpcPotrait();
 
             foreach (char letter in currentText)
             {
@@ -54,8 +66,12 @@ public class UI_Manager : MonoBehaviour
         }
 
         isTextDisplaying = false;
-        speakerNameText.text = ""; 
+        speakerNameText.text = "";
+
+        HideNpcPotrait();
+        HideNpcPortraitCenter();
     }
+
 
     public void ClearText()
     {
@@ -68,13 +84,11 @@ public class UI_Manager : MonoBehaviour
 
     public void ShowMenuUI()
     {
-        
         menuText.SetActive(true);
     }
 
     public void HideMenuUI()
     {
-        
         menuText.SetActive(false);
     }
 
@@ -87,7 +101,7 @@ public class UI_Manager : MonoBehaviour
     public void HideText()
     {
         speakerNameText.text = "";
-        dialogueText.text = ""; 
+        dialogueText.text = "";
     }
 
     public void ShowInteractMessage()
@@ -100,4 +114,47 @@ public class UI_Manager : MonoBehaviour
         interactMessage.SetActive(false);
     }
 
+    public void ShowNpcPotrait()
+    {
+        if (!npcPortraitCenter.activeSelf)
+        {
+            npcPortrait.SetActive(true);
+        }
+    }
+
+    public void HideNpcPotrait()
+    {
+        npcPortrait.SetActive(false); 
+    }
+
+    public void HideRestaurantBackground()
+    {
+        npcPortrait.SetActive(false);
+        HideNpcPortraitCenter();
+        RestaurantBackground.SetActive(false);
+    }
+
+    public void ShowRestaurantBackground()
+    {
+        RestaurantBackground.SetActive(true);
+        ShowNpcPortraitCenter();
+        npcPortrait.SetActive(false);
+    }
+
+    public void ShowNpcPortraitCenter()
+    {
+        npcPortraitCenter.SetActive(true);
+    }
+
+    public void HideNpcPortraitCenter()
+    {
+        npcPortraitCenter.SetActive(false);
+    }
+
+    public IEnumerator ShowBlackScreen(float duration)
+    {
+        blackScreen.color = new Color(0, 0, 0, 1); 
+        yield return new WaitForSeconds(duration);
+        blackScreen.color = new Color(0, 0, 0, 0); 
+    }
 }

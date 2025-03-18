@@ -6,12 +6,14 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private SpriteRenderer sr;
     private UI_Manager uiManager;
+    private GameManager gameManager;
     [SerializeField] private float Stress=0;
     [SerializeField] private float Hunger=100;
     [SerializeField] private float Sleep=100;
     [SerializeField] private float Money = 1000;
     private Animator animator;
     private bool isNearNpc = false;
+    public Vector3 lastValidPosition;
     public float getStress()
     {
         return Stress;
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
         sr = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
         uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     private void Update()
     {
@@ -85,6 +88,14 @@ public class Player : MonoBehaviour
             InteractWithNpc();
         }
     }
+
+    private void FixedUpdate()
+    {
+        
+        lastValidPosition = transform.position;
+        
+    }
+
 
     private void CheckForNpcInteraction()
     {

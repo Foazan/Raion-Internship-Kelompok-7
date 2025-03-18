@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class NpcManager : MonoBehaviour
 {
-    private bool isPlayerInRange;
     private UI_Manager uiManager;
     private bool isTalking = false;
 
@@ -19,7 +18,6 @@ public class NpcManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = true;
             uiManager.ShowInteractMessage();
         }
     }
@@ -28,7 +26,6 @@ public class NpcManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = false;
             uiManager.HideInteractMessage();
         }
     }

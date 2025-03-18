@@ -1,15 +1,17 @@
 using UnityEngine;
+using System.Collections;
 using System;
 
 public class GameManager : MonoBehaviour
 {
-    public string currentTime = "Pagi"; 
+    public string currentTime = "Pagi";
     private string[] timeBlocks = { "Pagi", "Siang", "Malam" };
     private int currentBlockIndex = 0;
     private TimeFilterManager timeFilterManager;
     public Transform homePosition;
     public event Action<string> OnTimeBlockChanged;
     private UI_Manager uiManager;
+
     public Camera mainCamera;
     public Camera restaurantCamera;
     public Canvas canvas;
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
     {
         timeFilterManager = GameObject.Find("TimeFilterManager").GetComponent<TimeFilterManager>();
         uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+
         if (timeFilterManager == null)
         {
             Debug.LogError("TimeFilterManager tidak ditemukan di scene!");
@@ -26,7 +29,9 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("TimeFilterManager berhasil ditemukan!");
         }
-        UpdateTimeBlock(); 
+
+        SwitchToMainView();
+        UpdateTimeBlock();
     }
 
     public void AdvanceTime()
@@ -44,16 +49,15 @@ public class GameManager : MonoBehaviour
 
         if (currentTime == "Malam")
         {
-            MovePlayerHome(); 
+            MovePlayerHome();
         }
     }
 
     void UpdateTimeBlock()
     {
         Debug.Log("Waktu sekarang: " + currentTime);
-        OnTimeBlockChanged?.Invoke(currentTime); 
+        OnTimeBlockChanged?.Invoke(currentTime);
 
-        // Terapkan filter waktu
         if (timeFilterManager != null)
         {
             if (currentTime == "Pagi")
@@ -81,15 +85,29 @@ public class GameManager : MonoBehaviour
 
     public void SwitchToRestaurantView()
     {
-        restaurantCamera.gameObject.SetActive(true);
-        mainCamera.gameObject.SetActive(false);
-        canvas.worldCamera = restaurantCamera;
+        StartCoroutine(TransitionToRestaurant());
+        Debug.Log("Beralih ke tampilan restoran.");
     }
 
     public void SwitchToMainView()
     {
-        restaurantCamera.gameObject.SetActive(false);
-        mainCamera.gameObject.SetActive(true);
+        StartCoroutine(TransitionToMainView());
+        Debug.Log("Beralih ke tampilan utama.");
+    }
+
+    private IEnumerator TransitionToRestaurant()
+    {
+        yield return StartCoroutine(uiManager.ShowBlackScreen(1f)); 
+        mainCamera.enabled = false;
+        restaurantCamera.enabled = true;
+        canvas.worldCamera = restaurantCamera;
+    }
+
+    private IEnumerator TransitionToMainView()
+    {
+        yield return StartCoroutine(uiManager.ShowBlackScreen(1f)); 
+        mainCamera.enabled = true;
+        restaurantCamera.enabled = false;
         canvas.worldCamera = mainCamera;
     }
 }
