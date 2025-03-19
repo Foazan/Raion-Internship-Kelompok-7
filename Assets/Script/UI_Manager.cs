@@ -3,6 +3,8 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Xml.Serialization;
+using System;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class UI_Manager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI speakerNameText;
     public TextMeshProUGUI moneyText;
+    public TextMeshProUGUI blackScreenText;
     public GameObject interactMessage;
     [SerializeField] private GameObject menuText;
     [SerializeField] private GameObject npcPortraitNormal;
@@ -133,6 +136,19 @@ public class UI_Manager : MonoBehaviour
         interactMessage.SetActive(false);
     }
 
+    public void ShowNpcPotrait()
+    {
+        if (!npcPortraitCenter.activeSelf)
+        {
+            npcPortrait.SetActive(true);
+        }
+    }
+
+    public void HideNpcPotrait()
+    {
+        npcPortrait.SetActive(false);
+    }
+
     public void HideRestaurantBackground()
     {
         HideNpcPortrait();
@@ -166,30 +182,53 @@ public class UI_Manager : MonoBehaviour
 
     public IEnumerator ShowBlackScreen(float duration)
     {
+        bool text = !string.IsNullOrEmpty(blackScreenText.text);
+        float halfDuration = duration / 2f;
         float elapsedTime = 0f;
-        while (elapsedTime < duration / 2)
+
+        while (elapsedTime < halfDuration)
         {
-            float elapsedPercent = elapsedTime / (duration / 2);
-            blackScreen.color = Color.Lerp(new Color(0, 0, 0, 0), new Color(0, 0, 0, 1), elapsedPercent);
+            float elapsedPercent = elapsedTime / halfDuration;
+            blackScreen.color = Color.Lerp(Color.clear, Color.black, elapsedPercent);
+
+            if (text)
+            {
+                blackScreenText.color = Color.Lerp(new Color(1, 1, 1, 0), new Color(1, 1, 1, 1), elapsedPercent);
+            }
 
             yield return null;
             elapsedTime += Time.deltaTime;
         }
 
-        blackScreen.color = new Color(0, 0, 0, 1);
-        yield return new WaitForSeconds(0.5f);
+        blackScreen.color = Color.black;
+        if (text)
+        {
+            blackScreenText.color = Color.white;
+            yield return new WaitForSeconds(2f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
         elapsedTime = 0f;
 
-        while (elapsedTime < duration / 2)
+        while (elapsedTime < halfDuration)
         {
-            float elapsedPercent = elapsedTime / (duration / 2);
-            blackScreen.color = Color.Lerp(new Color(0, 0, 0, 1), new Color(0, 0, 0, 0), elapsedPercent);
+            float elapsedPercent = elapsedTime / halfDuration;
+            blackScreen.color = Color.Lerp(Color.black, Color.clear, elapsedPercent);
+
+            if (text)
+            {
+                blackScreenText.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), elapsedPercent);
+            }
 
             yield return null;
             elapsedTime += Time.deltaTime;
         }
 
-        blackScreen.color = new Color(0, 0, 0, 0);
+        blackScreenText.text = "";
+        blackScreen.color = Color.clear;
     }
 
     public void SetNpcPortrait()
