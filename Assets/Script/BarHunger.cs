@@ -1,4 +1,5 @@
 
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 public class BarHunger : MonoBehaviour
@@ -15,27 +16,32 @@ public class BarHunger : MonoBehaviour
         image = gameObject.GetComponent<Image>();
         Debug.Log(Yellow.name);
         Hunger = player.getHunger();
+        changeBar();
     }
 
     void Update()
     {
         if (Hunger != player.getHunger())
         {
-            Hunger = player.getHunger();
-            if(Hunger > 70)
-            {
-                image.overrideSprite = Green;
-
-            }
-            else if (Hunger > 30)
-            {
-                image.overrideSprite = Yellow;
-            }
-            else
-            {
-                image.overrideSprite = Red;
-            }
-            image.fillAmount = Hunger / 100f;
+            changeBar();
         }
+    }
+    private void changeBar()
+    {
+        Hunger = player.getHunger();
+        if (Hunger > 70)
+        {
+            image.overrideSprite = Green;
+
+        }
+        else if (Hunger > 30)
+        {
+            image.overrideSprite = Yellow;
+        }
+        else
+        {
+            image.overrideSprite = Red;
+        }
+        image.fillAmount = Hunger / 100f;
     }
 }

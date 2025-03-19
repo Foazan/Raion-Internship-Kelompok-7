@@ -47,6 +47,9 @@ TagManager:
   - name: Text
     uniqueID: 2955872875
     locked: 0
+  - name: StatusBar
+    uniqueID: 1523890731
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1

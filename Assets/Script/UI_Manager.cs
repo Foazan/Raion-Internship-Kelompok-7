@@ -3,11 +3,14 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Xml.Serialization;
 
 public class UI_Manager : MonoBehaviour
 {
+    private Player player;
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI speakerNameText;
+    public TextMeshProUGUI moneyText;
     public GameObject interactMessage;
     [SerializeField] private GameObject menuText;
     [SerializeField] private GameObject npcPortrait;
@@ -21,6 +24,10 @@ public class UI_Manager : MonoBehaviour
 
     private void Start()
     {
+        if(player == null)
+        {
+            player = GameObject.Find("Player").GetComponent<Player>();
+        }
         menuText.SetActive(false);
         interactMessage.SetActive(false);
         HideRestaurantBackground();
@@ -29,9 +36,14 @@ public class UI_Manager : MonoBehaviour
         RestaurantBackground.SetActive(false);
         speakerNameText.text = "";
         if (blackScreen == null)
-            blackScreen = GetComponent<Image>();
+            blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
+        updateMoneyText();
     }
 
+    private void updateMoneyText()
+    {
+        moneyText.SetText(player.getMoney()+"$");
+    }
     public void ShowText(string text, string speakerName = "")
     {
         textQueue.Enqueue(text);
@@ -153,8 +165,29 @@ public class UI_Manager : MonoBehaviour
 
     public IEnumerator ShowBlackScreen(float duration)
     {
-        blackScreen.color = new Color(0, 0, 0, 1); 
-        yield return new WaitForSeconds(duration);
-        blackScreen.color = new Color(0, 0, 0, 0); 
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            float elapsedPercent = elapsedTime / (duration/2);
+            blackScreen.color = Color.Lerp(new Color(0, 0, 0, 0), new Color(0, 0, 0, 1), elapsedPercent);
+
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+
+        blackScreen.color = new Color(0, 0, 0, 1);
+        yield return new WaitForSeconds(0.5f);
+        elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            float elapsedPercent = elapsedTime / (duration/2);
+            blackScreen.color = Color.Lerp(new Color(0, 0, 0, 1), new Color(0, 0, 0, 0), elapsedPercent);
+
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+
+        blackScreen.color = new Color(0, 0, 0, 0);
     }
+
 }
