@@ -143,6 +143,9 @@ public class RestaurantActivity : Activity
         else
         {
             uiManager.ShowText("Ini bukan pesanan saya! Saya kecewa!", "Pelanggan");
+            uiManager.ShowLinneAngry();
+            uiManager.HideNpcPortraitCenter();
+            uiManager.ShowNpcPortraitCenterAngry();
             player.addStress(10);
         }
 
@@ -188,5 +191,6 @@ public class RestaurantActivity : Activity
         uiManager.HideRestaurantBackground();
         gameManager.AdvanceTime();
         EndActivity();
+        uiManager.ShowLinneNormal();
     }
 }

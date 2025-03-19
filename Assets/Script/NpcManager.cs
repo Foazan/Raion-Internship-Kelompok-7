@@ -7,11 +7,14 @@ public class NpcManager : MonoBehaviour
 {
     private UI_Manager uiManager;
     private bool isTalking = false;
+    private Player player;
+    private float PlayerStress;
 
 
     private void Start()
     {
         uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -45,6 +48,19 @@ public class NpcManager : MonoBehaviour
 
     private void StartDialogue()
     {
+        if (player != null)
+        {
+            float PlayerStress = player.getStress();
+
+            if (PlayerStress > 20)
+            {
+                uiManager.ShowLinneAngry();
+            }
+            else
+            {
+                uiManager.ShowLinneNormal();
+            }
+        }
         uiManager.ShowText("Who are you?", "Old Man");
         
 
@@ -62,5 +78,6 @@ public class NpcManager : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         uiManager.HideText();
         isTalking = false;
+        uiManager.ShowLinneNormal();
     }
 }
