@@ -9,6 +9,9 @@ public class MinimarketActivity : Activity
     private float paymentAmount = 0f; 
     private float changeAmount = 0f;
     private TextMeshProUGUI CashierText;
+    private bool transactionFinished = false;
+    private Player player;
+    private int banyakCustomer;
 
 
     private string[] listBarang =
@@ -26,22 +29,23 @@ public class MinimarketActivity : Activity
     protected override void Start()
     {
         base.Start();
+        banyakCustomer = Random.Range(4, 7);
         activityName = "Melayani Pembeli";
         CashierText = GameObject.Find("ScreenUI").GetComponent<TextMeshProUGUI>();
-        StartActivity();
-    }
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
+    }
     protected override void Update()
     {
-        
+        base.Update();
     }
 
     protected override void StartActivity()
     {
+        gameManager.SwitchToMinimarketView();
         customerOrder.Clear();
         totalAmount = 0f; 
         Debug.Log($"Memulai {activityName}...");
-
         GenerateRandomOrder();
         GenerateRandomPayment(totalAmount);
         UpdateTotalDisplay();
@@ -50,7 +54,7 @@ public class MinimarketActivity : Activity
 
     private void GenerateRandomOrder()
     {
-        int numberOfItems = Random.Range(1, 9); //random 1-8 barang
+        int numberOfItems = Random.Range(3, 9); //random 1-8 barang
         for (int i = 0; i < numberOfItems; i++)
         {
             string randomItem = listBarang[Random.Range(0, listBarang.Length)];
@@ -101,23 +105,31 @@ public class MinimarketActivity : Activity
     private void GenerateRandomPayment(float price)
     {
         int i = listUang.Length;
-        while (paymentAmount <= price )
+        paymentAmount += listUang[Random.Range(2, i)];
+        while (paymentAmount < price)
+        {
+            if (i <= 0) break; 
+
+            if (price - paymentAmount <= listUang[i - 1])
             {
-            if (price - paymentAmount < listUang[i-1])
-            {
-                paymentAmount += listUang[Random.Range(2, i )];
-                if (i < 4) {
+                if (i <= 3)
+                {
+                    paymentAmount += listUang[Random.Range(2, i)];
+                }
+                else
+                {
                     i--;
                 }
-                
-            }
 
             }
+            else
+            {
+                paymentAmount += listUang[Random.Range(2, i)];
+            }
+        }
     }
-
     public void GiveChangeDone()
     {
-        changeAmount = paymentAmount - totalAmount;
         if (changeAmount != paymentAmount - totalAmount) 
         {
             Debug.Log("Salah bodo");
@@ -128,6 +140,7 @@ public class MinimarketActivity : Activity
             Debug.Log("Anjay bener");
             FinishTransaction();
         }
+        banyakCustomer--;
     
     }
     private void FinishTransaction()
@@ -136,8 +149,17 @@ public class MinimarketActivity : Activity
         paymentAmount = 0f;
         changeAmount = 0f;
         customerOrder.Clear();
+        clearChangeTray();
         UpdateTotalDisplay();
-        StartActivity();
+        if(banyakCustomer != 0)
+        {
+            StartActivity();
+        }
+        else
+        {
+
+        }
+        
     }
 
     private void UpdateTotalDisplay()
@@ -149,10 +171,27 @@ public class MinimarketActivity : Activity
     public void addChange(float a)
     {
         changeAmount += a;
+        UpdateTotalDisplay();
     }
 
     public void subtractChange(float a)
     {
         changeAmount -= a;
+        UpdateTotalDisplay();
+    }
+    private void clearChangeTray()
+    {
+
+        GameObject dchangeTray = GameObject.Find("DollarChangeTray");
+        GameObject cchangeTray = GameObject.Find("CentsChangeTray");
+        foreach (Transform child in dchangeTray.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in cchangeTray.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
     }
 }

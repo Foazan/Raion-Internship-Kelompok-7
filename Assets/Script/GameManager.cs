@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     public Camera mainCamera;
     public Camera restaurantCamera;
+    public Camera minimarketCamera;
     public Canvas canvas;
 
     void Start()
@@ -109,5 +110,10 @@ public class GameManager : MonoBehaviour
         mainCamera.enabled = true;
         restaurantCamera.enabled = false;
         canvas.worldCamera = mainCamera;
+    }
+    public void SwitchToMinimarketView()
+    {
+        minimarketCamera.gameObject.SetActive(true);
+        mainCamera.gameObject.SetActive(false);
     }
 }

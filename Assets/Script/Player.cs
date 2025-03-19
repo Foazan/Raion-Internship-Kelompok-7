@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
             sr.flipX = true;
             animator.SetBool("isWalking", true);
             animator.SetFloat("input.-x", x);
+
         }
         else if (x != 0 && x > 0)
         {
