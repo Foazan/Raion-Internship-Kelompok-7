@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer sr;
     private UI_Manager uiManager;
     private GameManager gameManager;
-    [SerializeField] private float Stress=0;
+    [SerializeField] private float Stress=50;
     [SerializeField] private float Hunger=100;
     [SerializeField] private float Sleep=100;
     [SerializeField] private float Money = 1000;

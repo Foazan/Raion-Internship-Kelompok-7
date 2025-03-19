@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
 public class BarSleep : MonoBehaviour
 {
@@ -14,27 +15,34 @@ public class BarSleep : MonoBehaviour
         image = gameObject.GetComponent<Image>();
         Debug.Log(Yellow.name);
         Sleep = player.getSleep();
+        changeBar();
     }
 
     void Update()
     {
         if (Sleep != player.getSleep())
         {
-            Sleep = player.getSleep();
-            if(Sleep > 70)
-            {
-                image.overrideSprite = Green;
-
-            }
-            else if (Sleep > 30)
-            {
-                image.overrideSprite = Yellow;
-            }
-            else
-            {
-                image.overrideSprite = Red;
-            }
-            image.fillAmount = Sleep / 100f;
+            changeBar();
         }
     }
+    private void changeBar()
+    {
+        Sleep = player.getSleep();
+        if (Sleep > 70)
+        {
+            image.overrideSprite = Green;
+
+        }
+        else if (Sleep > 30)
+        {
+            image.overrideSprite = Yellow;
+        }
+        else
+        {
+            image.overrideSprite = Red;
+        }
+        image.fillAmount = Sleep / 100f;
+    }
+
 }
+
