@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("TimeFilterManager berhasil ditemukan!");
         }
 
-        SwitchToMainView();
+        StartingToMainView();
         UpdateTimeBlock();
     }
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
         if (currentTime == "Malam")
         {
-            MovePlayerHome();
+            StartCoroutine(MovePlayerHome());
         }
     }
 
@@ -70,19 +70,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void MovePlayerHome()
+    IEnumerator MovePlayerHome()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null && homePosition != null)
         {
+            yield return StartCoroutine(uiManager.ShowBlackScreen(3f, "Night Has Come, Better Go Home....")); 
             player.transform.position = homePosition.position;
-            Debug.Log("Player otomatis pulang ke rumah.");
+            yield return new WaitForSeconds(2f);
+            yield return StartCoroutine(uiManager.HideBlackScreen(3f)); 
         }
         else
         {
             Debug.LogWarning("Player atau Home Position tidak ditemukan!");
         }
     }
+
 
     public void SwitchToRestaurantView()
     {
@@ -96,20 +99,38 @@ public class GameManager : MonoBehaviour
         Debug.Log("Beralih ke tampilan utama.");
     }
 
+    public void StartingToMainView()
+    {
+        StartCoroutine(StartToMainView());
+        Debug.Log("Beralih ke tampilan utama.");
+    }
+
     private IEnumerator TransitionToRestaurant()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(1f)); 
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Start Working....")); 
         mainCamera.enabled = false;
         restaurantCamera.enabled = true;
         canvas.worldCamera = restaurantCamera;
+        yield return StartCoroutine(uiManager.HideBlackScreen(2f));
     }
 
     private IEnumerator TransitionToMainView()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(1f)); 
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Leaving....")); 
         mainCamera.enabled = true;
         restaurantCamera.enabled = false;
         canvas.worldCamera = mainCamera;
+        yield return StartCoroutine(uiManager.HideBlackScreen(2f));
+    }
+
+    private IEnumerator StartToMainView()
+    {
+        StartCoroutine(uiManager.ShowBlackScreen(0f, "Loading Game...."));
+        mainCamera.enabled = true;
+        restaurantCamera.enabled = false;
+        canvas.worldCamera = mainCamera;
+        yield return new WaitForSeconds(2f);
+        StartCoroutine(uiManager.HideBlackScreen(1f));
     }
     public void SwitchToMinimarketView()
     {

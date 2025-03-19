@@ -15,6 +15,7 @@ public class UI_Manager : MonoBehaviour
     public TextMeshProUGUI blackScreenText;
     public GameObject interactMessage;
     [SerializeField] private GameObject menuText;
+    [SerializeField] private GameObject menuBox;
     [SerializeField] private GameObject npcPortraitNormal;
     [SerializeField] private GameObject npcPortraitAngry;
     [SerializeField] private GameObject npcPortraitCenterNormal;
@@ -107,11 +108,13 @@ public class UI_Manager : MonoBehaviour
     public void ShowMenuUI()
     {
         menuText.SetActive(true);
+        menuBox.SetActive(true);
     }
 
     public void HideMenuUI()
     {
         menuText.SetActive(false);
+        menuBox.SetActive(false);
     }
 
     public void DisplayOrder()
@@ -134,19 +137,6 @@ public class UI_Manager : MonoBehaviour
     public void HideInteractMessage()
     {
         interactMessage.SetActive(false);
-    }
-
-    public void ShowNpcPotrait()
-    {
-        if (!npcPortraitCenter.activeSelf)
-        {
-            npcPortrait.SetActive(true);
-        }
-    }
-
-    public void HideNpcPotrait()
-    {
-        npcPortrait.SetActive(false);
     }
 
     public void HideRestaurantBackground()
@@ -180,9 +170,9 @@ public class UI_Manager : MonoBehaviour
         npcPortraitAngry.SetActive(false);
     }
 
-    public IEnumerator ShowBlackScreen(float duration)
+    public IEnumerator ShowBlackScreen(float duration, string text = "")
     {
-        bool text = !string.IsNullOrEmpty(blackScreenText.text);
+        bool hasText = !string.IsNullOrEmpty(text);
         float halfDuration = duration / 2f;
         float elapsedTime = 0f;
 
@@ -191,9 +181,10 @@ public class UI_Manager : MonoBehaviour
             float elapsedPercent = elapsedTime / halfDuration;
             blackScreen.color = Color.Lerp(Color.clear, Color.black, elapsedPercent);
 
-            if (text)
+            if (hasText)
             {
-                blackScreenText.color = Color.Lerp(new Color(1, 1, 1, 0), new Color(1, 1, 1, 1), elapsedPercent);
+                blackScreenText.text = text;
+                blackScreenText.color = Color.Lerp(new Color(1, 1, 1, 0), Color.white, elapsedPercent);
             }
 
             yield return null;
@@ -201,35 +192,31 @@ public class UI_Manager : MonoBehaviour
         }
 
         blackScreen.color = Color.black;
-        if (text)
-        {
-            blackScreenText.color = Color.white;
-            yield return new WaitForSeconds(2f);
-        }
-        else
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
+        if (hasText) blackScreenText.color = Color.white;
 
-        elapsedTime = 0f;
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    public IEnumerator HideBlackScreen(float duration)
+    {
+        float elapsedTime = 0f;
+        float halfDuration = duration / 2f;
 
         while (elapsedTime < halfDuration)
         {
             float elapsedPercent = elapsedTime / halfDuration;
             blackScreen.color = Color.Lerp(Color.black, Color.clear, elapsedPercent);
-
-            if (text)
-            {
-                blackScreenText.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), elapsedPercent);
-            }
+            blackScreenText.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), elapsedPercent);
 
             yield return null;
             elapsedTime += Time.deltaTime;
         }
 
-        blackScreenText.text = "";
         blackScreen.color = Color.clear;
+        blackScreenText.text = "";
     }
+
+
 
     public void SetNpcPortrait()
     {

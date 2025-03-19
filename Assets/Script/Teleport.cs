@@ -47,9 +47,10 @@ public class Teleport : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null && teleportTarget != null)
         {
-            StartCoroutine(uiManager.ShowBlackScreen(1f));
-            yield return new WaitForSeconds(0.5f);
+            yield return StartCoroutine(uiManager.ShowBlackScreen(1f, "Moving...."));
             player.transform.position = teleportTarget.position;
+            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(uiManager.HideBlackScreen(2f));
         }
     }
 }

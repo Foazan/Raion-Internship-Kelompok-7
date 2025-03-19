@@ -1,11 +1,10 @@
 using UnityEngine;
 using System.Collections;
-
-public class Sleep : MonoBehaviour
+public class Park : MonoBehaviour
 {
     private GameManager gameManager;
     private UI_Manager uiManager;
-
+    private Player player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,12 +15,12 @@ public class Sleep : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
+        if (other.CompareTag("Player") && gameManager.currentTime != "Malam")
         {
             uiManager.ShowInteractMessage();
         }
@@ -29,11 +28,11 @@ public class Sleep : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
+        if (other.CompareTag("Player") && gameManager.currentTime != "Malam")
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                StartSleep();
+                StartPark();
             }
         }
     }
@@ -46,14 +45,15 @@ public class Sleep : MonoBehaviour
         }
     }
 
-    private void StartSleep()
+    private void StartPark()
     {
-        StartCoroutine(SleepRoutine());
+        StartCoroutine(ParkRoutine());
     }
 
-    private IEnumerator SleepRoutine()
+    private IEnumerator ParkRoutine()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "A New Day Begins...."));
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "The Park is Beutiful Today...."));
+        player.addStress(-5f);
         gameManager.AdvanceTime();
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));
     }
