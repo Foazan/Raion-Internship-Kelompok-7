@@ -143,9 +143,9 @@ public class RestaurantActivity : Activity
         else
         {
             uiManager.ShowText("Ini bukan pesanan saya! Saya kecewa!", "Pelanggan");
-            uiManager.ShowLinneAngry();
+            uiManager.ShowLinneGloomy();
             uiManager.HideNpcPortraitCenter();
-            uiManager.ShowNpcPortraitCenterAngry();
+            uiManager.ShowNpcPotraitCenterAngry();
             player.addStress(10);
         }
 

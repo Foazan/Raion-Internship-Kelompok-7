@@ -714,7 +714,7 @@ SpriteRenderer:
   m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &98743848
@@ -801,7 +801,7 @@ SpriteRenderer:
   m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &132487732
@@ -1304,16 +1304,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 750277690}
   speakerNameText: {fileID: 798876390}
+  moneyText: {fileID: 0}
   interactMessage: {fileID: 132487732}
   menuText: {fileID: 71970263}
-  menuBox: {fileID: 1133093387}
   npcPortraitNormal: {fileID: 1374271401}
   npcPortraitAngry: {fileID: 421350250}
   npcPortraitCenterNormal: {fileID: 804329290}
   npcPortraitCenterAngry: {fileID: 1705347630}
   RestaurantBackground: {fileID: 1772479745}
   LinneNormal: {fileID: 48917743}
-  LinneAngry: {fileID: 727735420}
+  LinneGloomy: {fileID: 0}
   blackScreen: {fileID: 259254265}
   canvas: {fileID: 188082602}
 --- !u!1 &224926939
@@ -2344,7 +2344,7 @@ GameObject:
   - component: {fileID: 727735422}
   - component: {fileID: 727735421}
   m_Layer: 0
-  m_Name: Linne_Merah
+  m_Name: Linne_Murung
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2828,7 +2828,7 @@ SpriteRenderer:
   m_Size: {x: 33.33, y: 50.00721}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!222 &780072163
@@ -5289,6 +5289,7 @@ MonoBehaviour:
   homePosition: {fileID: 166435720}
   mainCamera: {fileID: 1373393310}
   restaurantCamera: {fileID: 2117641976}
+  minimarketCamera: {fileID: 0}
   canvas: {fileID: 188082602}
 --- !u!4 &1411008429
 Transform:
@@ -5695,7 +5696,7 @@ GameObject:
   - component: {fileID: 1705347631}
   - component: {fileID: 1705347632}
   m_Layer: 0
-  m_Name: npc_distorted (1)
+  m_Name: npc_distorted_center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5710,7 +5711,7 @@ Transform:
   m_GameObject: {fileID: 1705347630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -34, z: 134}
+  m_LocalPosition: {x: 0, y: 41, z: 134}
   m_LocalScale: {x: 150, y: 150, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6321,7 +6322,7 @@ SpriteRenderer:
   m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1939948825

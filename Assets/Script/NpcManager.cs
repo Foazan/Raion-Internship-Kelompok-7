@@ -54,7 +54,7 @@ public class NpcManager : MonoBehaviour
 
             if (PlayerStress > 20)
             {
-                uiManager.ShowLinneAngry();
+                uiManager.ShowLinneGloomy();
             }
             else
             {

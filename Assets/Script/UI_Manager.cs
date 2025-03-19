@@ -3,7 +3,6 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System.Xml.Serialization;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -13,9 +12,13 @@ public class UI_Manager : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public GameObject interactMessage;
     [SerializeField] private GameObject menuText;
-    [SerializeField] private GameObject npcPortrait;
-    [SerializeField] private GameObject npcPortraitCenter;
+    [SerializeField] private GameObject npcPortraitNormal;
+    [SerializeField] private GameObject npcPortraitAngry;
+    [SerializeField] private GameObject npcPortraitCenterNormal;
+    [SerializeField] private GameObject npcPortraitCenterAngry;
     [SerializeField] private GameObject RestaurantBackground;
+    [SerializeField] private GameObject LinneNormal;
+    [SerializeField] private GameObject LinneGloomy;
     public Image blackScreen;
     private Queue<string> textQueue = new Queue<string>();
     private Queue<string> nameQueue = new Queue<string>();
@@ -24,26 +27,31 @@ public class UI_Manager : MonoBehaviour
 
     private void Start()
     {
-        if(player == null)
+        if (player == null)
         {
-            player = GameObject.Find("Player").GetComponent<Player>();
+            player = GameObject.FindWithTag("Player").GetComponent<Player>();
         }
+
         menuText.SetActive(false);
         interactMessage.SetActive(false);
         HideRestaurantBackground();
-        npcPortrait.SetActive(false);
-        npcPortraitCenter.SetActive(false);
+        HideNpcPortrait();
+        HideNpcPortraitCenter();
         RestaurantBackground.SetActive(false);
         speakerNameText.text = "";
+
         if (blackScreen == null)
             blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
-        updateMoneyText();
+
+        UpdateMoneyText();
+        ShowLinneNormal();
     }
 
-    private void updateMoneyText()
+    private void UpdateMoneyText()
     {
-        moneyText.SetText(player.getMoney()+"$");
+        moneyText.SetText(player.getMoney() + "$");
     }
+
     public void ShowText(string text, string speakerName = "")
     {
         textQueue.Enqueue(text);
@@ -66,7 +74,7 @@ public class UI_Manager : MonoBehaviour
 
             speakerNameText.text = string.IsNullOrEmpty(currentSpeaker) ? "" : currentSpeaker;
 
-            ShowNpcPotrait();
+            SetNpcPortrait(); 
 
             foreach (char letter in currentText)
             {
@@ -80,10 +88,9 @@ public class UI_Manager : MonoBehaviour
         isTextDisplaying = false;
         speakerNameText.text = "";
 
-        HideNpcPotrait();
+        HideNpcPortrait();
         HideNpcPortraitCenter();
     }
-
 
     public void ClearText()
     {
@@ -126,22 +133,9 @@ public class UI_Manager : MonoBehaviour
         interactMessage.SetActive(false);
     }
 
-    public void ShowNpcPotrait()
-    {
-        if (!npcPortraitCenter.activeSelf)
-        {
-            npcPortrait.SetActive(true);
-        }
-    }
-
-    public void HideNpcPotrait()
-    {
-        npcPortrait.SetActive(false); 
-    }
-
     public void HideRestaurantBackground()
     {
-        npcPortrait.SetActive(false);
+        HideNpcPortrait();
         HideNpcPortraitCenter();
         RestaurantBackground.SetActive(false);
     }
@@ -149,26 +143,33 @@ public class UI_Manager : MonoBehaviour
     public void ShowRestaurantBackground()
     {
         RestaurantBackground.SetActive(true);
-        ShowNpcPortraitCenter();
-        npcPortrait.SetActive(false);
+        ShowNpcPortraitCenterNormal();
     }
 
-    public void ShowNpcPortraitCenter()
+    public void ShowNpcPortraitCenterNormal()
     {
-        npcPortraitCenter.SetActive(true);
+        npcPortraitCenterNormal.SetActive(true);
+        npcPortraitCenterAngry.SetActive(false);
     }
 
     public void HideNpcPortraitCenter()
     {
-        npcPortraitCenter.SetActive(false);
+        npcPortraitCenterNormal.SetActive(false);
+        npcPortraitCenterAngry.SetActive(false);
+    }
+
+    public void HideNpcPortrait()
+    {
+        npcPortraitNormal.SetActive(false);
+        npcPortraitAngry.SetActive(false);
     }
 
     public IEnumerator ShowBlackScreen(float duration)
     {
         float elapsedTime = 0f;
-        while (elapsedTime < duration)
+        while (elapsedTime < duration / 2)
         {
-            float elapsedPercent = elapsedTime / (duration/2);
+            float elapsedPercent = elapsedTime / (duration / 2);
             blackScreen.color = Color.Lerp(new Color(0, 0, 0, 0), new Color(0, 0, 0, 1), elapsedPercent);
 
             yield return null;
@@ -178,9 +179,10 @@ public class UI_Manager : MonoBehaviour
         blackScreen.color = new Color(0, 0, 0, 1);
         yield return new WaitForSeconds(0.5f);
         elapsedTime = 0f;
-        while (elapsedTime < duration)
+
+        while (elapsedTime < duration / 2)
         {
-            float elapsedPercent = elapsedTime / (duration/2);
+            float elapsedPercent = elapsedTime / (duration / 2);
             blackScreen.color = Color.Lerp(new Color(0, 0, 0, 1), new Color(0, 0, 0, 0), elapsedPercent);
 
             yield return null;
@@ -190,4 +192,39 @@ public class UI_Manager : MonoBehaviour
         blackScreen.color = new Color(0, 0, 0, 0);
     }
 
+    public void SetNpcPortrait()
+    {
+        if (player != null)
+        {
+            float playerStress = player.getStress();
+            if (playerStress < 50)
+            {
+                npcPortraitNormal.SetActive(true);
+                npcPortraitAngry.SetActive(false);
+            }
+            else
+            {
+                npcPortraitNormal.SetActive(false);
+                npcPortraitAngry.SetActive(true);
+            }
+        }
+    }
+
+    public void ShowNpcPotraitCenterAngry()
+    {
+        npcPortraitCenterNormal.SetActive(false);
+        npcPortraitCenterAngry.SetActive(true);
+    }
+
+    public void ShowLinneNormal()
+    {
+        LinneNormal.SetActive(true);
+        LinneGloomy.SetActive(false);
+    }
+
+    public void ShowLinneGloomy()
+    {
+        LinneNormal.SetActive(false);
+        LinneGloomy.SetActive(true);
+    }
 }
