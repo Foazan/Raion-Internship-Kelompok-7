@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0208ac4f2188dcc448a466bcc235d1b6
+guid: c06ffaf26687471448d514dc44191e4b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,7 +21,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dollar_Bill__Coin_0
+      name: Bagian_bagian toko_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2109
-        width: 641
-        height: 272
+        x: 96
+        y: 284
+        width: 40
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 124636c65977ad549a41a7387b7355a4
-      internalID: 1483115786
+      spriteID: 0f9a45c25a9b35b4f8f05589f357948c
+      internalID: 1630410809
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dollar_Bill__Coin_2
+      name: Bagian_bagian toko_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 829
-        width: 641
-        height: 272
+        x: 304
+        y: 340
+        width: 232
+        height: 192
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15539f68ee6d56d448187f30fd2665f0
-      internalID: -1870990104
+      spriteID: 26472be62ddb3b547ae3a5adc8a547bb
+      internalID: -1198816273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dollar_Bill__Coin_3
+      name: Bagian_bagian toko_2
       rect:
         serializedVersion: 2
-        x: 759
-        y: 759
-        width: 402
-        height: 402
+        x: 684
+        y: 304
+        width: 248
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f99df38987ba9f84cb77df59da17cb57
-      internalID: -1644583014
+      spriteID: 414251a76d6102943a3e3146dfd3483a
+      internalID: 1023767304
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dollar_Bill__Coin_4
+      name: Bagian_bagian toko_3
       rect:
         serializedVersion: 2
-        x: 1399
-        y: 759
-        width: 402
-        height: 402
+        x: 108
+        y: 124
+        width: 148
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 205f834bc17679846a2201d79e724cc2
-      internalID: 1738147361
+      spriteID: 1c15bfe006688544ea9444dbb171f263
+      internalID: -237470048
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dollar_Bill__Coin_5
+      name: Bagian_bagian toko_4
       rect:
         serializedVersion: 2
-        x: 119
-        y: 119
-        width: 402
-        height: 402
+        x: 296
+        y: 112
+        width: 232
+        height: 192
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 786068937d146a44a82de49f62e3d95d
-      internalID: -919900232
+      spriteID: a2c2ba05fab5b8b4d990e57c76822e65
+      internalID: -1305037373
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dollar_Bill__Coin_6
+      name: Bagian_bagian toko_5
       rect:
         serializedVersion: 2
-        x: 759
-        y: 119
-        width: 402
-        height: 402
+        x: 572
+        y: 112
+        width: 204
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,20 +222,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f8efc5c869b4594c9d51be9892118da
-      internalID: -1762987705
+      spriteID: 13a92877db3d2a044ac1c843bc4d5217
+      internalID: -2012662177
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dollar_Bill__Coin_7
+      name: Bagian_bagian toko_6
       rect:
         serializedVersion: 2
-        x: 1399
-        y: 119
-        width: 402
-        height: 402
+        x: 788
+        y: 112
+        width: 204
+        height: 136
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,118 +244,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46f15772364dd164ca8b1f2e2ae61d8b
-      internalID: 1694894297
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dollar_Bill__Coin_8
-      rect:
-        serializedVersion: 2
-        x: 641
-        y: 2109
-        width: 640
-        height: 272
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6e91bbc3e78fa2544bd26982324788ea
-      internalID: 331445751
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dollar_Bill__Coin_9
-      rect:
-        serializedVersion: 2
-        x: 1280
-        y: 2110
-        width: 639
-        height: 271
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c8d97b51811f89f488c67ce566502568
-      internalID: -524757526
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dollar_Bill__Coin_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1470
-        width: 641
-        height: 270
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9bb614baa5a0de14ebe1e3894d4517f4
-      internalID: 1428260733
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dollar_Bill__Coin_10
-      rect:
-        serializedVersion: 2
-        x: 641
-        y: 1470
-        width: 635
-        height: 270
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b46300e651bd1354eb4e93b34253d2d6
-      internalID: 137383192
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Dollar_Bill__Coin_11
-      rect:
-        serializedVersion: 2
-        x: 1276
-        y: 1470
-        width: 644
-        height: 270
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dd827e95b16a0b9418ad496c05428d87
-      internalID: 1770353327
+      spriteID: c5c1d42849d75634cae6f1487ce15d2d
+      internalID: 1692571683
       vertices: []
       indices: 
       edges: []
@@ -364,7 +254,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 60363097ced9f6f4eabc4f7e20d03ef5
+    spriteID: c01a896405a9db84184e90fd868d2a23
     internalID: 0
     vertices: []
     indices: 
@@ -374,18 +264,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Dollar_Bill__Coin_0: 1483115786
-      Dollar_Bill__Coin_1: 1428260733
-      Dollar_Bill__Coin_10: 137383192
-      Dollar_Bill__Coin_11: 1770353327
-      Dollar_Bill__Coin_2: -1870990104
-      Dollar_Bill__Coin_3: -1644583014
-      Dollar_Bill__Coin_4: 1738147361
-      Dollar_Bill__Coin_5: -919900232
-      Dollar_Bill__Coin_6: -1762987705
-      Dollar_Bill__Coin_7: 1694894297
-      Dollar_Bill__Coin_8: 331445751
-      Dollar_Bill__Coin_9: -524757526
+      Bagian_bagian toko_0: 1630410809
+      Bagian_bagian toko_1: -1198816273
+      Bagian_bagian toko_2: 1023767304
+      Bagian_bagian toko_3: -237470048
+      Bagian_bagian toko_4: -1305037373
+      Bagian_bagian toko_5: -2012662177
+      Bagian_bagian toko_6: 1692571683
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
