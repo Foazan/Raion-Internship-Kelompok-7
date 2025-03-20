@@ -9,6 +9,8 @@ public class NpcManager : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private bool isTalking = false;
+    private bool atBorderRight = false;
+    private bool atBorderLeft = false;
     private Player player;
     private float playerStress;
     private Vector3 spawnLocation;
@@ -45,16 +47,12 @@ public class NpcManager : MonoBehaviour
 
     void Update()
     {
+        atBorderRight = transform.position.x >= rightLimit.transform.position.x;
+        atBorderLeft = transform.position.x <= leftLimit.transform.position.x;
+
         if (!isWalking)
         {
             MakeDecision();
-            
-            StartCoroutine(Moving(duration));
-        }
-        if (transform.position.x >= rightLimit.transform.position.x || transform.position.x >= leftLimit.transform.position.x )
-        {
-            StopCoroutine(Moving(duration));
-            decision = 0;
             StartCoroutine(Moving(duration));
         }
     }
@@ -83,10 +81,10 @@ public class NpcManager : MonoBehaviour
             }
         }
         uiManager.ShowText("Who are you?", "Old Man");
-        
+
 
         uiManager.ShowText("Keep your own business", "Old Man");
-        
+
 
         uiManager.ShowText("Oh, I am sorry", "Linne");
 
@@ -104,8 +102,20 @@ public class NpcManager : MonoBehaviour
 
     private void MakeDecision()
     {
-        decision = UnityEngine.Random.Range(-1, 2); 
-        duration = UnityEngine.Random.Range(2, 5); 
+        if (atBorderRight)
+        {
+            decision = UnityEngine.Random.Range(-1, 1);
+        }
+        else if (atBorderLeft)
+        {
+            decision = UnityEngine.Random.Range(0, 2);
+        }
+        else
+        {
+            decision = UnityEngine.Random.Range(-1, 2);
+        }
+
+        duration = UnityEngine.Random.Range(2, 5);
     }
 
     private IEnumerator Moving(float duration)
@@ -113,34 +123,45 @@ public class NpcManager : MonoBehaviour
         isWalking = true;
         float timePassed = 0f;
         Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + new Vector3(decision *duration * 2f, 0f, 0f); 
-        if(decision != 0)
+        Vector3 targetPosition = startPosition + new Vector3(decision * duration * 2f, 0f, 0f);
+        if (decision != 0)
         {
-            if(decision == 1)
-            {
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
+            spriteRenderer.flipX = decision == -1;
             animator.SetBool("isWalking", true);
             while (timePassed < duration)
+            {
+                timePassed += Time.deltaTime;
+                float t = timePassed / duration;
+                Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, t);
+                if (newPosition.x >= rightLimit.transform.position.x)
                 {
-                    timePassed += Time.deltaTime;
-                    float t = timePassed / duration;
-                    transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-                    animator.SetFloat("inputx", decision);
-                    yield return null;
+                    newPosition.x = rightLimit.transform.position.x; 
+                    break;
                 }
+                else if (newPosition.x <= leftLimit.transform.position.x)
+                {
+                    newPosition.x = leftLimit.transform.position.x; 
+                    break; 
+                }
+
+                transform.position = newPosition;
+                yield return null;
+            }
+            if (transform.position.x >= rightLimit.transform.position.x)
+            {
+                transform.position = rightLimit.transform.position;
+            }
+            else if (transform.position.x <= leftLimit.transform.position.x)
+            {
+                transform.position = leftLimit.transform.position;
+            }
         }
         else
         {
-            yield return new WaitForSeconds(duration); 
+            yield return new WaitForSeconds(duration);
         }
-
-            animator.SetBool("isWalking", false);
-            isWalking = false;
-            yield return new WaitForSeconds(1f);
+        animator.SetBool("isWalking", false);
+        isWalking = false;
+        yield return new WaitForSeconds(1f);
     }
 }
