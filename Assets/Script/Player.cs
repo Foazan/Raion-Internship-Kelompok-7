@@ -64,16 +64,9 @@ public class Player : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         Vector3 moveDir = new Vector3(x, 0, 0);
         rb.linearVelocity = moveDir * speed;
-        if (x != 0 && x < 0)
+        if (x != 0)
         {
-            sr.flipX = true;
-            animator.SetBool("isWalking", true);
-            animator.SetFloat("input.-x", x);
-
-        }
-        else if (x != 0 && x > 0)
-        {
-            sr.flipX = false;
+            sr.flipX = x < 0;
             animator.SetBool("isWalking", true);
             animator.SetFloat("input.x", x);
         }
@@ -96,7 +89,6 @@ public class Player : MonoBehaviour
         lastValidPosition = transform.position;
         
     }
-
 
     private void CheckForNpcInteraction()
     {
