@@ -29,4 +29,10 @@ public class TimeFilterManager : MonoBehaviour
     {
         colorAdjustments.colorFilter.value = new Color(0.5f, 0.5f, 1f); 
     }
+
+    public void SetEveningFilter()
+    {
+        colorAdjustments.colorFilter.value = new Color(1f, 0.6f, 0.4f); 
+    }
+
 }

@@ -5,15 +5,18 @@ public class Sleep : MonoBehaviour
 {
     private GameManager gameManager;
     private UI_Manager uiManager;
+    private Player player;
+    [SerializeField] private float addedSleep;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -54,7 +57,9 @@ public class Sleep : MonoBehaviour
     private IEnumerator SleepRoutine()
     {
         yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "A New Day Begins...."));
+        gameManager.NotStayUpLate();
         gameManager.AdvanceTime();
+        player.addSleep(addedSleep);
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));
     }
 }

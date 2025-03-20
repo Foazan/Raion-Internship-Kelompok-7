@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
-public class Park : MonoBehaviour
+
+public class Eat : MonoBehaviour
 {
     private GameManager gameManager;
     private UI_Manager uiManager;
     private Player player;
-    [SerializeField] private float addedStress;
-    [SerializeField] private float Cost;
+    [SerializeField] private float addedHunger;
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -16,12 +17,12 @@ public class Park : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && (gameManager.currentTime == "Sore" || gameManager.currentTime == "Pagi"))
+        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
         {
             uiManager.ShowInteractMessage();
         }
@@ -29,11 +30,11 @@ public class Park : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && (gameManager.currentTime == "Sore" || gameManager.currentTime == "Pagi"))
+        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                StartPark();
+                StartEating();
             }
         }
     }
@@ -46,18 +47,17 @@ public class Park : MonoBehaviour
         }
     }
 
-    private void StartPark()
+    private void StartEating()
     {
-        StartCoroutine(ParkRoutine());
+        StartCoroutine(EatingRoutine());
     }
 
-    private IEnumerator ParkRoutine()
+    private IEnumerator EatingRoutine()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "The Park is Beutiful Today...."));
-        player.addStress(-addedStress);
-        player.addMoney(-Cost);
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Yum Yum...."));
+        gameManager.StayUpLate();
         gameManager.AdvanceTime();
-        uiManager.UpdateMoneyText();
+        player.addHunger(addedHunger);
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));
     }
 }

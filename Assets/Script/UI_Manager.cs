@@ -51,7 +51,7 @@ public class UI_Manager : MonoBehaviour
         ShowLinneNormal();
     }
 
-    private void UpdateMoneyText()
+    public void UpdateMoneyText()
     {
         moneyText.SetText(player.getMoney() + "$");
     }
@@ -149,7 +149,7 @@ public class UI_Manager : MonoBehaviour
     public void ShowRestaurantBackground()
     {
         RestaurantBackground.SetActive(true);
-        ShowNpcPortraitCenterNormal();
+        
     }
 
     public void ShowNpcPortraitCenterNormal()

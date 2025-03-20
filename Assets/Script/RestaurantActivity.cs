@@ -9,6 +9,10 @@ public class RestaurantActivity : Activity
     private Dictionary<string, int> customerOrder = new Dictionary<string, int>();
     private bool isOrdering = false;
     private System.Random random = new System.Random();
+    [SerializeField] private float addedStress;
+    [SerializeField] private float addedMoney;
+    [SerializeField] private float foodCost;
+    [SerializeField] private float addedHunger;
 
     private string[] menuItems =
     {
@@ -43,12 +47,52 @@ public class RestaurantActivity : Activity
     protected override void StartActivity()
     {
         gameManager.SwitchToRestaurantView();
+        uiManager.ShowRestaurantBackground();
         uiManager.HideInteractMessage();
-        if (isOrdering) return;
+        ShowRestaurantOptions();
+    }
+
+    private void ShowRestaurantOptions()
+    {
+        uiManager.ShowText("Apa yang ingin Anda lakukan?", "Kasir");
+        uiManager.ShowText("1. Bekerja di restoran \n2. Beli makan \npilih angka dan klik space", "Kasir");
+
+        StartCoroutine(WaitForOptionSelection());
+    }
+
+    private IEnumerator WaitForOptionSelection()
+    {
+        bool optionSelected = false;
+
+        while (!optionSelected)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime == "Siang" || gameManager.currentTime == "Pagi"))
+            {
+                optionSelected = true;
+                StartWork();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                optionSelected = true;
+                BuyFood();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime != "Siang" || gameManager.currentTime != "Pagi"))
+            {
+                uiManager.ShowText("Maaf Anda tidak bisa bekerja saat ini", "Kasir");
+                StartCoroutine(EndAfterNotDoingAnything());
+                optionSelected = true;
+            }
+            yield return null;
+        }
+    }
+
+    private void StartWork()
+    {
         isOrdering = true;
         playerOrder.Clear();
         customerOrder.Clear();
         uiManager.ShowRestaurantBackground();
+        uiManager.ShowNpcPortraitCenterNormal();
         GenerateRandomOrder();
 
         uiManager.ShowText($"Memulai {activityName}...", "Kasir");
@@ -56,6 +100,46 @@ public class RestaurantActivity : Activity
 
         ShowOrderSummary();
         ShowMenu();
+    }
+
+    private void BuyFood()
+    {
+
+        if (player.getMoney() >= foodCost)
+        {
+            player.addMoney(-foodCost);
+            player.addHunger(addedHunger);
+            uiManager.ShowText("Terimakasih sudah membeli", "Kasir");
+        }
+        else
+        {
+            uiManager.ShowText("Uang Anda tidak cukup untuk membeli makanan!", "Kasir");
+        }
+
+        StartCoroutine(EndAfterPurchase());
+    }
+
+    private IEnumerator EndAfterPurchase()
+    {
+        yield return new WaitForSeconds(3f);
+        gameManager.SwitchToMainView();
+        uiManager.HideText();
+        uiManager.HideRestaurantBackground();
+        gameManager.AdvanceTime();
+        EndActivity();
+        uiManager.ShowLinneNormal();
+        uiManager.UpdateMoneyText();
+    }
+
+    private IEnumerator EndAfterNotDoingAnything()
+    {
+        yield return new WaitForSeconds(3f);
+        gameManager.SwitchToMainView();
+        uiManager.HideText();
+        uiManager.HideRestaurantBackground();
+        EndActivity();
+        uiManager.ShowLinneNormal();
+        uiManager.UpdateMoneyText();
     }
 
     private void GenerateRandomOrder()
@@ -137,8 +221,9 @@ public class RestaurantActivity : Activity
         if (isCorrect)
         {
             uiManager.ShowText("Wah, pesanan saya sudah benar! Terima kasih!", "Pelanggan");
-            player.addMoney(10);
-            player.addStress(-5);
+            player.addMoney(addedMoney);
+            player.addStress(addedStress);
+            player.addMoney(addedMoney);
         }
         else
         {
@@ -146,7 +231,8 @@ public class RestaurantActivity : Activity
             uiManager.ShowLinneGloomy();
             uiManager.HideNpcPortraitCenter();
             uiManager.ShowNpcPotraitCenterAngry();
-            player.addStress(10);
+            player.addStress(addedStress+20);
+            player.addMoney(addedMoney);
         }
 
         yield return new WaitForSeconds(2f);
@@ -173,6 +259,7 @@ public class RestaurantActivity : Activity
     private void FinishOrder()
     {
         StartCoroutine(FinishOrderWithDelay());
+
     }
 
     protected override void EndActivity()
@@ -192,5 +279,6 @@ public class RestaurantActivity : Activity
         gameManager.AdvanceTime();
         EndActivity();
         uiManager.ShowLinneNormal();
+        uiManager.UpdateMoneyText();
     }
 }

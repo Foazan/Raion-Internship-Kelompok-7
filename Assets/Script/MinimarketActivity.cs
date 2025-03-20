@@ -12,6 +12,7 @@ public class MinimarketActivity : Activity
     private bool transactionFinished = false;
     private Player player;
     private int banyakCustomer;
+    [SerializeField] private float addedStress;
 
 
     private string[] listBarang =

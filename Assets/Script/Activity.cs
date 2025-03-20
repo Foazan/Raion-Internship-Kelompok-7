@@ -7,6 +7,7 @@ public abstract class Activity : MonoBehaviour
     protected bool isInActivityZone = false;
     protected bool isProcessingActivity = false; 
     protected string activityName = "Aktivitas";
+    
 
     protected virtual void Start()
     {

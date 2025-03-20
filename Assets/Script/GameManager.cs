@@ -5,22 +5,27 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public string currentTime = "Pagi";
-    private string[] timeBlocks = { "Pagi", "Siang", "Malam" };
+    private string[] timeBlocks = { "Pagi", "Siang", "Sore", "Malam" };
     private int currentBlockIndex = 0;
     private TimeFilterManager timeFilterManager;
     public Transform homePosition;
     public event Action<string> OnTimeBlockChanged;
     private UI_Manager uiManager;
-
+    private Player player;
     public Camera mainCamera;
     public Camera restaurantCamera;
     public Camera minimarketCamera;
     public Canvas canvas;
+    [SerializeField] private float addedHunger;
+    [SerializeField] private float addedSleep;
+    [SerializeField] private float addedSleepStayUpLate;
+    private bool isStayUpLate = false;
 
     void Start()
     {
         timeFilterManager = GameObject.Find("TimeFilterManager").GetComponent<TimeFilterManager>();
         uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
         if (timeFilterManager == null)
         {
@@ -43,6 +48,14 @@ public class GameManager : MonoBehaviour
         {
             currentBlockIndex = 0;
             Debug.Log("Hari Baru Dimulai!");
+            if (isStayUpLate == true)
+            {
+                player.addSleep(-addedSleepStayUpLate);
+            }
+        }
+        else
+        {
+            player.addSleep(-addedSleep);
         }
 
         currentTime = timeBlocks[currentBlockIndex];
@@ -52,7 +65,20 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(MovePlayerHome());
         }
+
+        player.addHunger(-addedHunger);
     }
+
+    public void StayUpLate()
+    {
+        isStayUpLate = true;
+    }
+
+    public void NotStayUpLate()
+    {
+        isStayUpLate = false;
+    }
+
 
     void UpdateTimeBlock()
     {
@@ -65,6 +91,8 @@ public class GameManager : MonoBehaviour
                 timeFilterManager.SetMorningFilter();
             else if (currentTime == "Siang")
                 timeFilterManager.SetNoonFilter();
+            else if (currentTime == "Sore")
+                timeFilterManager.SetEveningFilter();
             else if (currentTime == "Malam")
                 timeFilterManager.SetNightFilter();
         }
@@ -107,7 +135,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToRestaurant()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Start Working....")); 
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Enter the Restaurant....")); 
         mainCamera.enabled = false;
         restaurantCamera.enabled = true;
         canvas.worldCamera = restaurantCamera;
@@ -116,11 +144,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TransitionToMainView()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Leaving....")); 
+        yield return StartCoroutine(uiManager.ShowBlackScreen(3f, "Leaving....")); 
         mainCamera.enabled = true;
         restaurantCamera.enabled = false;
         canvas.worldCamera = mainCamera;
-        yield return StartCoroutine(uiManager.HideBlackScreen(2f));
+        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(uiManager.HideBlackScreen(3f));
     }
 
     private IEnumerator StartToMainView()
