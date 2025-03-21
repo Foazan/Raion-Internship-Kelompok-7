@@ -51,14 +51,8 @@ public class Money : MonoBehaviour
 
             if (transform.position == ChangeLocation.position)
             {
-                if (value >= 1f)
-                {
-                    transform.SetParent(GameObject.Find("DollarChangeTray").transform);
-                }
-                else
-                {
-                    transform.SetParent(GameObject.Find("CentsChangeTray").transform);
-                }
+                    transform.SetParent(GameObject.Find("changeTray").transform);
+               
                 isMoving = false;
                 child = true;
             }

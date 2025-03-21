@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MinimarketActivity : Activity
@@ -8,12 +10,14 @@ public class MinimarketActivity : Activity
     private float totalAmount = 0f; 
     private float paymentAmount = 0f; 
     private float changeAmount = 0f;
-    private TextMeshProUGUI CashierText;
+    [SerializeField]private TextMeshProUGUI CashierText;
     private bool transactionFinished = false;
     private Player player;
     private int banyakCustomer;
     [SerializeField] private float addedStress;
-
+    [SerializeField] private GameObject NPC;
+    [SerializeField] private GameObject MidPoint, EndPoint;
+    private Vector3 NpcStartPosition;
 
     private string[] listBarang =
     {
@@ -30,30 +34,26 @@ public class MinimarketActivity : Activity
     protected override void Start()
     {
         base.Start();
+        NpcStartPosition = NPC.transform.position;
         banyakCustomer = Random.Range(4, 7);
         activityName = "Melayani Pembeli";
-        CashierText = GameObject.Find("ScreenUI").GetComponent<TextMeshProUGUI>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-
+        UpdateTotalDisplay();
     }
     protected override void Update()
     {
         base.Update();
     }
 
-    protected override void StartActivity()
+    
+    public override void StartActivity()
     {
         gameManager.SwitchToMinimarketView();
-        customerOrder.Clear();
-        totalAmount = 0f; 
-        Debug.Log($"Memulai {activityName}...");
-        GenerateRandomOrder();
-        GenerateRandomPayment(totalAmount);
-        UpdateTotalDisplay();
-        Debug.Log("Dia Bayar " + paymentAmount + " leee");
+        StartCoroutine(NpcComing());
+
     }
 
-    private void GenerateRandomOrder()
+    private IEnumerator GenerateRandomOrder()
     {
         int numberOfItems = Random.Range(3, 9); //random 1-8 barang
         for (int i = 0; i < numberOfItems; i++)
@@ -70,9 +70,12 @@ public class MinimarketActivity : Activity
                 customerOrder[randomItem] += price * quantity; // Update total item
                 totalAmount += price * quantity; // Update total harga
                 UpdateTotalDisplay();
+                yield return new WaitForSeconds(1f);
                 Debug.Log($"Ditambahkan: {randomItem} - Harga: {price} x {quantity}. Total: {totalAmount}");
             }
         }
+        GenerateRandomPayment(totalAmount);
+        UpdateTotalDisplay();
     }
 
     private float GetItemPrice(string item)
@@ -129,22 +132,36 @@ public class MinimarketActivity : Activity
             }
         }
     }
+    public float RoundToPointTwo(float value)
+    {
+        return Mathf.Round(value / 0.2f) * 0.2f;
+    }
     public void GiveChangeDone()
     {
-        if (changeAmount != paymentAmount - totalAmount) 
+        float expectedChange = paymentAmount - totalAmount;
+        expectedChange = RoundToPointTwo(expectedChange);
+
+
+        Debug.Log($"Change Amount: {changeAmount}");
+        Debug.Log($"Payment Amount: {paymentAmount}");
+        Debug.Log($"Total Amount: {totalAmount}");
+        Debug.Log($"Expected Change: {expectedChange}");
+
+        if (Mathf.Abs(changeAmount - expectedChange) > 0.01f)
         {
-            Debug.Log("Salah bodo");
-            FinishTransaction();
+            
         }
         else
         {
             Debug.Log("Anjay bener");
-            FinishTransaction();
         }
+
         banyakCustomer--;
-    
+        StartCoroutine(FinishTransaction());
     }
-    private void FinishTransaction()
+
+
+    private IEnumerator FinishTransaction()
     {
         totalAmount = 0f;
         paymentAmount = 0f;
@@ -152,13 +169,15 @@ public class MinimarketActivity : Activity
         customerOrder.Clear();
         clearChangeTray();
         UpdateTotalDisplay();
-        if(banyakCustomer != 0)
+        yield return StartCoroutine(NpcLeaving());
+        NPC.transform.position = NpcStartPosition;
+        if (banyakCustomer != 0)
         {
             StartActivity();
         }
         else
         {
-
+            EndActivity();
         }
         
     }
@@ -182,17 +201,52 @@ public class MinimarketActivity : Activity
     }
     private void clearChangeTray()
     {
-
-        GameObject dchangeTray = GameObject.Find("DollarChangeTray");
-        GameObject cchangeTray = GameObject.Find("CentsChangeTray");
-        foreach (Transform child in dchangeTray.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        foreach (Transform child in cchangeTray.transform)
+        GameObject changeTray = GameObject.Find("changeTray");
+       
+        foreach (Transform child in changeTray.transform)
         {
             Destroy(child.gameObject);
         }
 
     }
+    private void TransactionStart()
+    { 
+        customerOrder.Clear();
+        totalAmount = 0f;
+        Debug.Log($"Memulai {activityName}...");
+        StartCoroutine(GenerateRandomOrder());
+        UpdateTotalDisplay();
+        
+    }
+
+    private IEnumerator NpcComing()
+    {
+        Debug.Log("StidaknyaSampeSini");
+        float timeElapsed = 0f;
+        while (NPC.transform.position != MidPoint.transform.position)
+        {
+            Debug.Log("NPCDATANGNPDATANG");
+            NPC.transform.position = Vector3.Lerp(NpcStartPosition, MidPoint.transform.position, timeElapsed / 3);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        NPC.transform.position = MidPoint.transform.position;
+        TransactionStart();
+
+    }
+
+    private IEnumerator NpcLeaving()
+    {
+        float timeElapsed = 0f;
+        while (NPC.transform.position != EndPoint.transform.position)
+        {
+            NPC.transform.position = Vector3.Lerp(MidPoint.transform.position, EndPoint.transform.position, timeElapsed / 3);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        NPC.transform.position = EndPoint.transform.position;
+
+
+    }
+
 }

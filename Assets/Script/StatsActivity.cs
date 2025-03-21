@@ -53,7 +53,7 @@ public class StatsActivity : Activity
         }
     }
 
-    protected override void StartActivity()
+    public override void StartActivity()
     {
         base.StartActivity();
 

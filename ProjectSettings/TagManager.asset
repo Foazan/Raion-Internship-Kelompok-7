@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Lantai
+    uniqueID: 4238646783
+    locked: 0
+  - name: Minimarket
+    uniqueID: 3995712913
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

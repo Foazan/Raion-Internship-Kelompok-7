@@ -46,7 +46,7 @@ public class RestaurantActivity : Activity
         }
     }
 
-    protected override void StartActivity()
+    public override void StartActivity()
     {
         SoundManager.Instance.PlayDoorOpening();
         gameManager.SwitchToRestaurantView();

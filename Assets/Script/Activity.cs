@@ -33,7 +33,7 @@ public abstract class Activity : MonoBehaviour
 
     }
 
-    protected virtual void StartActivity()
+    public virtual void StartActivity()
     {
         uiManager.HideInteractMessage();
     }
