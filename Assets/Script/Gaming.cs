@@ -55,6 +55,7 @@ public class Gaming : MonoBehaviour
     private IEnumerator GamingRoutine()
     {
         yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Playing Games...."));
+        gameManager.setNotSleeping();
         gameManager.AdvanceTime();
         player.addStress(-addedStress);
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float addedHunger;
     [SerializeField] private float addedSleep;
     [SerializeField] private float addedSleepStayUpLate;
+    private float currentStress;
     private Boolean isSleeping = false;
     private int currentDay = 1;
 
@@ -39,6 +41,11 @@ public class GameManager : MonoBehaviour
 
         StartingToMainView();
         UpdateTimeBlock();
+    }
+
+    private void Update()
+    {
+        gameOverCheck();
     }
 
     public void AdvanceTime()
@@ -86,6 +93,11 @@ public class GameManager : MonoBehaviour
     {
         isSleeping = true;
     }
+
+    public void setNotSleeping()
+    {
+        isSleeping = false;
+    }
     void UpdateTimeBlock()
     {
         Debug.Log("Waktu sekarang: " + currentTime);
@@ -123,61 +135,74 @@ public class GameManager : MonoBehaviour
 
     public void SwitchToRestaurantView()
     {
-        StartCoroutine(TransitionToRestaurant());
+        TransitionToRestaurant();
         Debug.Log("Beralih ke tampilan restoran.");
+    }
+
+    public void SwitchtoMinimarketView()
+    {
+        TransitionToMinikmarket();
     }
 
     public void SwitchToMainView()
     {
-        StartCoroutine(TransitionToMainView());
+        TransitionToMainView();
         Debug.Log("Beralih ke tampilan utama.");
     }
 
     public void StartingToMainView()
     {
-        StartCoroutine(StartToMainView());
+        StartToMainView();
         Debug.Log("Beralih ke tampilan utama.");
     }
 
-    private IEnumerator TransitionToRestaurant()
+    public void TransitionToRestaurant()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Enter the Restaurant....")); 
-        mainCamera.enabled = false;
-        restaurantCamera.enabled = true;
-        canvas.worldCamera = restaurantCamera;
-        yield return StartCoroutine(uiManager.HideBlackScreen(2f));
+        StartCoroutine(uiManager.ShowBlackScreen(2f, "Enter the Restaurant...."));
+        StartCoroutine(waitSwitchCamera(restaurantCamera, mainCamera, 2f));
     }
 
-    private IEnumerator TransitionToMinikmarket()
+    private void TransitionToMinikmarket()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Enter the Minimarket...."));
-        mainCamera.enabled = false;
-        minimarketCamera.enabled = true;
-        canvas.worldCamera = minimarketCamera;
-        yield return StartCoroutine(uiManager.HideBlackScreen(2f));
+        StartCoroutine(uiManager.ShowBlackScreen(2f, "Enter the Minimarket...."));
+        StartCoroutine(waitSwitchCamera(minimarketCamera, mainCamera, 2f));
     }
 
-    private IEnumerator TransitionToMainView()
+    private void TransitionToMainView()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Leaving....")); 
-        mainCamera.enabled = true;
-        restaurantCamera.enabled = false;
-        canvas.worldCamera = mainCamera;
-        yield return new WaitForSeconds(2f);
-        yield return StartCoroutine(uiManager.HideBlackScreen(3f));
+        StartCoroutine(uiManager.ShowBlackScreen(2f, "Leaving...."));
+        StartCoroutine(waitSwitchCamera(mainCamera, restaurantCamera, 2f)); 
     }
 
-    private IEnumerator StartToMainView()
+    private void StartToMainView()
     {
         StartCoroutine(uiManager.ShowBlackScreen(3f, "Loading Game...."));
-        mainCamera.enabled = true;
-        restaurantCamera.enabled = false;
-        canvas.worldCamera = mainCamera;
-        yield return new WaitForSeconds(3f);
-        StartCoroutine(uiManager.HideBlackScreen(3f));
+        StartCoroutine(waitSwitchCamera(mainCamera, restaurantCamera, 2f));
     }
     public void SwitchToMinimarketView()
     {
-        StartCoroutine(TransitionToRestaurant());
+        TransitionToRestaurant();
+    }
+
+    public void gameOverCheck()
+    {
+        currentStress = player.getStress();
+        if (currentStress >= 100)
+        {
+            StartCoroutine(gameOver());
+        }
+    }
+    private IEnumerator gameOver()
+    {
+        yield return uiManager.ShowBlackScreen(3f, "Linne pulang dan KHS");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+
+    private IEnumerator waitSwitchCamera(Camera a,Camera b, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        a.enabled = true;
+        b.enabled = false;
+        canvas.worldCamera = a;
     }
 }

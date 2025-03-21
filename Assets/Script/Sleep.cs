@@ -65,5 +65,6 @@ public class Sleep : MonoBehaviour
         gameManager.AdvanceTime();
         player.addSleep(addedSleep);
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));
+        
     }
 }

@@ -20,7 +20,34 @@ public class StatsActivity : Activity
     {
         base.Update();
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            uiManager.ShowInteractMessage();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                StartActivity();
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            uiManager.HideInteractMessage();
+        }
+    }
+
     protected override void StartActivity()
     {
         base.StartActivity();
@@ -39,6 +66,7 @@ public class StatsActivity : Activity
     private IEnumerator WaitToBlack(float a)
     {
         yield return new WaitForSeconds(a);
+        gameManager.setNotSleeping();
         player.addStress(Stress);
         player.addHunger(Hunger);
         player.addSleep(Sleep);

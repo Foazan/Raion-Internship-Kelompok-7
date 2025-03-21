@@ -28,6 +28,7 @@ public class UI_Manager : MonoBehaviour
     private Queue<string> nameQueue = new Queue<string>();
     private bool isTextDisplaying = false;
     public Canvas canvas;
+    private bool start = true;
 
     private void Start()
     {
@@ -176,7 +177,7 @@ public class UI_Manager : MonoBehaviour
         float halfDuration = duration / 2f;
         float elapsedTime = 0f;
 
-        while (elapsedTime < halfDuration)
+        while (elapsedTime < halfDuration && !start)
         {
             float elapsedPercent = elapsedTime / halfDuration;
             blackScreen.color = Color.Lerp(Color.clear, Color.black, elapsedPercent);
@@ -206,7 +207,7 @@ public class UI_Manager : MonoBehaviour
             yield return null;
             elapsedTime += Time.deltaTime;
         }
-
+        start = false;
         blackScreen.color = Color.clear;
         blackScreenText.text = "";
     }

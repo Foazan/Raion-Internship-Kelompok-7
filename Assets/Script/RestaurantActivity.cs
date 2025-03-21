@@ -280,5 +280,6 @@ public class RestaurantActivity : Activity
         EndActivity();
         uiManager.ShowLinneNormal();
         uiManager.UpdateMoneyText();
+        
     }
 }

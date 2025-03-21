@@ -22,7 +22,7 @@ public class Eat : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
+        if (other.CompareTag("Player"))
         {
             uiManager.ShowInteractMessage();
         }
@@ -30,7 +30,7 @@ public class Eat : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
+        if (other.CompareTag("Player"))
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -54,8 +54,9 @@ public class Eat : MonoBehaviour
 
     private IEnumerator EatingRoutine()
     {
-        int tomorrowDay = gameManager.GetCurrentDay() + 1;
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Eating Until" + $"Day {tomorrowDay} Begin...."));
+        
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Nyam Nyam..."));
+        gameManager.setNotSleeping();
         gameManager.AdvanceTime();
         player.addHunger(addedHunger);
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));

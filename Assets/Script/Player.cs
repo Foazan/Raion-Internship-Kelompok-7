@@ -81,6 +81,11 @@ public class Player : MonoBehaviour
         {
             InteractWithNpc();
         }
+
+        if (Hunger<=0 || Sleep<=0)
+        {
+            addStress(20);
+        }
     }
 
     private void FixedUpdate()
