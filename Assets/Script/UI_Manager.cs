@@ -193,14 +193,9 @@ public class UI_Manager : MonoBehaviour
 
         blackScreen.color = Color.black;
         if (hasText) blackScreenText.color = Color.white;
-
-        yield return new WaitForSeconds(0.5f);
-    }
-
-    public IEnumerator HideBlackScreen(float duration)
-    {
-        float elapsedTime = 0f;
-        float halfDuration = duration / 2f;
+        yield return new WaitForSeconds(duration/2);
+        elapsedTime = 0f;
+        halfDuration = duration / 2f;
 
         while (elapsedTime < halfDuration)
         {
@@ -252,5 +247,9 @@ public class UI_Manager : MonoBehaviour
     {
         LinneNormal.SetActive(false);
         LinneGloomy.SetActive(true);
+    }
+    public IEnumerator HideBlackScreen(float duration)
+    {
+        yield return null;
     }
 }

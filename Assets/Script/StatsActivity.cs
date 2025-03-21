@@ -26,8 +26,7 @@ public class StatsActivity : Activity
         base.StartActivity();
         if (BlackScreen)
         {
-            screenText.SetText(blackScreenText);
-            StartCoroutine(uiManager.ShowBlackScreen(4f));
+            StartCoroutine(uiManager.ShowBlackScreen(4f,blackScreenText));
         }
         StartCoroutine(WaitToBlack(3f));
         EndActivity();

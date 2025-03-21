@@ -7,7 +7,7 @@ public class Money : MonoBehaviour
     private Quaternion OriginalRotation;
     public GameObject Duit;
     public GameObject Minimarket;
-    
+    private Vector3 OriginalScale;
     private bool child;
     private bool isMoving = false;
 
@@ -15,7 +15,7 @@ public class Money : MonoBehaviour
     {
         OriginalPosition = transform.position;
         OriginalRotation = transform.rotation;
-
+        OriginalScale = transform.localScale;
         
     }
 
