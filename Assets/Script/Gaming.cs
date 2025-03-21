@@ -54,7 +54,8 @@ public class Gaming : MonoBehaviour
 
     private IEnumerator GamingRoutine()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Playing Games Until Morning...."));
+        int tomorrowDay = gameManager.GetCurrentDay() + 1;
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Playing Games Until" + $"Day {tomorrowDay} Begin...."));
         gameManager.StayUpLate();
         gameManager.AdvanceTime();
         player.addStress(-addedStress);

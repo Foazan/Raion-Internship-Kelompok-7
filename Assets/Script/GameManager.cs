@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float addedHunger;
     [SerializeField] private float addedSleep;
     [SerializeField] private float addedSleepStayUpLate;
-    private bool isStayUpLate = false;
+    private Boolean isSleeping = false;
+    private int currentDay = 1;
 
     void Start()
     {
@@ -47,10 +48,12 @@ public class GameManager : MonoBehaviour
         if (currentBlockIndex >= timeBlocks.Length)
         {
             currentBlockIndex = 0;
+            currentDay++;
             Debug.Log("Hari Baru Dimulai!");
-            if (isStayUpLate == true)
+            
+            if (isSleeping == true)
             {
-                player.addSleep(-addedSleepStayUpLate);
+                
             }
         }
         else
@@ -69,17 +72,20 @@ public class GameManager : MonoBehaviour
         player.addHunger(-addedHunger);
     }
 
-    public void StayUpLate()
+    public int GetCurrentDay()
     {
-        isStayUpLate = true;
+        return currentDay;
     }
 
-    public void NotStayUpLate()
+    public Boolean getSleeping()
     {
-        isStayUpLate = false;
+        return isSleeping;
     }
 
-
+    public void setSleeping()
+    {
+        isSleeping = true;
+    }
     void UpdateTimeBlock()
     {
         Debug.Log("Waktu sekarang: " + currentTime);
@@ -142,9 +148,18 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));
     }
 
+    private IEnumerator TransitionToMinikmarket()
+    {
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Enter the Minimarket...."));
+        mainCamera.enabled = false;
+        minimarketCamera.enabled = true;
+        canvas.worldCamera = minimarketCamera;
+        yield return StartCoroutine(uiManager.HideBlackScreen(2f));
+    }
+
     private IEnumerator TransitionToMainView()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(3f, "Leaving....")); 
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Leaving....")); 
         mainCamera.enabled = true;
         restaurantCamera.enabled = false;
         canvas.worldCamera = mainCamera;
@@ -163,7 +178,6 @@ public class GameManager : MonoBehaviour
     }
     public void SwitchToMinimarketView()
     {
-        minimarketCamera.gameObject.SetActive(true);
-        mainCamera.gameObject.SetActive(false);
+        StartCoroutine(TransitionToRestaurant());
     }
 }

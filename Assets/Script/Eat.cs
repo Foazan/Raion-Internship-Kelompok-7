@@ -54,7 +54,8 @@ public class Eat : MonoBehaviour
 
     private IEnumerator EatingRoutine()
     {
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Yum Yum...."));
+        int tomorrowDay = gameManager.GetCurrentDay() + 1;
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Eating Until" + $"Day {tomorrowDay} Begin...."));
         gameManager.StayUpLate();
         gameManager.AdvanceTime();
         player.addHunger(addedHunger);
