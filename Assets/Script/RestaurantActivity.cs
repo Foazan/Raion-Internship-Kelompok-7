@@ -13,6 +13,8 @@ public class RestaurantActivity : Activity
     [SerializeField] private float addedMoney;
     [SerializeField] private float foodCost;
     [SerializeField] private float addedHunger;
+    [SerializeField] private float minusHunger;
+    [SerializeField] private float addedSleep;
 
     private string[] menuItems =
     {
@@ -25,7 +27,7 @@ public class RestaurantActivity : Activity
     protected override void Start()
     {
         base.Start();
-        activityName = "Melayani Pelanggan";
+        activityName = "Serving Customer";
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
@@ -55,8 +57,8 @@ public class RestaurantActivity : Activity
 
     private void ShowRestaurantOptions()
     {
-        uiManager.ShowText("Apa yang ingin Anda lakukan?", "Kasir");
-        uiManager.ShowText("1. Bekerja di restoran \n2. Beli makan \npilih angka dan klik space", "Kasir");
+        uiManager.ShowText("What do you want to do", "Cashier");
+        uiManager.ShowText("1. Work \n2. Buy food \nchoose number and klik space", "Cashier");
 
         StartCoroutine(WaitForOptionSelection());
     }
@@ -72,14 +74,18 @@ public class RestaurantActivity : Activity
                 optionSelected = true;
                 StartWork();
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && gameManager.currentTime != "Siang")
             {
                 optionSelected = true;
                 BuyFood();
             }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && gameManager.currentTime == "Siang")
+            {
+                uiManager.ShowText("I have to work", "Linne");
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime != "Siang" || gameManager.currentTime != "Pagi"))
             {
-                uiManager.ShowText("Maaf Anda tidak bisa bekerja saat ini", "Kasir");
+                uiManager.ShowText("Sorry you can't work right now", "Cashier");
                 StartCoroutine(EndAfterNotDoingAnything());
                 optionSelected = true;
             }
@@ -96,8 +102,8 @@ public class RestaurantActivity : Activity
         uiManager.ShowNpcPortraitCenterNormal();
         GenerateRandomOrder();
 
-        uiManager.ShowText($"Memulai {activityName}...", "Kasir");
-        uiManager.ShowText($"Saya akan memesan {GetTotalOrderCount()} item.", "Pelanggan");
+        uiManager.ShowText($"{activityName}...", "Cashier");
+        uiManager.ShowText($"I am ordering {GetTotalOrderCount()} item.", "Customer");
 
         ShowOrderSummary();
         ShowMenu();
@@ -110,7 +116,7 @@ public class RestaurantActivity : Activity
         {
             player.addMoney(-foodCost);
             player.addHunger(addedHunger);
-            uiManager.ShowText("Terimakasih sudah membeli", "Kasir");
+            uiManager.ShowText("Ah this is gonna put a dent in my pocket… \nbut it’s nice to eat good food every once a while.", "Linne");
         }
         else
         {
@@ -272,7 +278,7 @@ public class RestaurantActivity : Activity
     private IEnumerator FinishOrderWithDelay()
     {
         uiManager.ShowText("Order completed!", "Cashier");
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         gameManager.SwitchToMainView();
         uiManager.HideMenuUI();
         uiManager.HideText();
@@ -281,6 +287,15 @@ public class RestaurantActivity : Activity
         EndActivity();
         uiManager.ShowLinneNormal();
         uiManager.UpdateMoneyText();
-        
+        player.addSleep(addedSleep);
+        player.addHunger(minusHunger);
+
+        if (currentDay == 1)
+        {
+            uiManager.ShowText("*Gasp* That was mortifying. \nHow do people regularly interact with other people regularly? \nMy heart goes crazy and it gets hard to breathe!", "Linne");
+            uiManager.ShowText("...but I want things to change. I have to hold on, at least for a week.", "Linne");
+            uiManager.ShowText("I could go home now, but there’s still some time. \nMaybe I can still go somewhere. \nI never really did see around this street even though I live here.", "Linne");
+
+        }
     }
 }

@@ -50,6 +50,7 @@ public class UI_Manager : MonoBehaviour
 
         UpdateMoneyText();
         ShowLinneNormal();
+        ShowPrologue();
     }
 
     public void UpdateMoneyText()
@@ -79,7 +80,6 @@ public class UI_Manager : MonoBehaviour
 
             speakerNameText.text = string.IsNullOrEmpty(currentSpeaker) ? "" : currentSpeaker;
 
-            SetNpcPortrait(); 
 
             foreach (char letter in currentText)
             {
@@ -92,6 +92,7 @@ public class UI_Manager : MonoBehaviour
 
         isTextDisplaying = false;
         speakerNameText.text = "";
+        dialogueText.text = "";
 
         HideNpcPortrait();
         HideNpcPortraitCenter();
@@ -177,7 +178,7 @@ public class UI_Manager : MonoBehaviour
         float halfDuration = duration / 2f;
         float elapsedTime = 0f;
 
-        while (elapsedTime < halfDuration && !start)
+        while (elapsedTime < halfDuration)
         {
             float elapsedPercent = elapsedTime / halfDuration;
             blackScreen.color = Color.Lerp(Color.clear, Color.black, elapsedPercent);
@@ -283,5 +284,58 @@ public class UI_Manager : MonoBehaviour
 
         ShowText(selectedDialogue, "Customer");
     }
+
+    public void ShowPrologue()
+    {
+        string[] prologueTexts =
+        {
+        "It's been a while since that crash.",
+        "...I have not been with my parents for a while now.",
+        "I'm scared. I'm so scared. The house is awfully empty, and things get messy without someone cleaning them up.",
+        "I feel awful. I’ve been eating frozen food, instant noodles, and take-out since they passed away. I can’t survive like this. I can’t keep living like this. I must do something. I have to.",
+        "I have to try surviving by myself out there."
+    };
+
+        StartCoroutine(ShowBlackScreenWithText(3f, prologueTexts));
+    }
+
+    private IEnumerator ShowBlackScreenWithText(float fadeOutDuration, string[] texts)
+    {
+        blackScreen.color = Color.black;
+        blackScreenText.color = Color.white;
+
+        foreach (string text in texts)
+        {
+            blackScreenText.text = ""; 
+
+            foreach (char letter in text)
+            {
+                blackScreenText.text += letter; 
+                yield return new WaitForSeconds(0.02f); 
+            }
+
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space)); 
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeOutDuration)
+        {
+            float alpha = 1 - (elapsedTime / fadeOutDuration);
+            blackScreen.color = new Color(0, 0, 0, alpha);
+            blackScreenText.color = new Color(1, 1, 1, alpha);
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+
+        blackScreen.color = Color.clear;
+        blackScreenText.text = "";
+        player.setPlayerCanWalk();
+    }
+
+
+
 
 }

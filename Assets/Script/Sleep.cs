@@ -26,7 +26,7 @@ public class Sleep : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
+        if (other.CompareTag("Player"))
         {
             uiManager.ShowInteractMessage();
         }
@@ -34,11 +34,20 @@ public class Sleep : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        int currentDay = gameManager.GetCurrentDay();
         if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 StartSleep();
+            }
+        }
+
+        else if (other.CompareTag("Player") && currentDay == 1 && gameManager.currentTime != "Malam") 
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                uiManager.ShowText("...No, I can't keep living like this.", "Linne");
             }
         }
     }
@@ -60,7 +69,7 @@ public class Sleep : MonoBehaviour
     private IEnumerator SleepRoutine()
     {
         int tomorrowDay = gameManager.GetCurrentDay() + 1;
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, $"Day {tomorrowDay} Begin...."));
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "I want to buy softer pillows…"));
         gameManager.setSleeping();
         gameManager.AdvanceTime();
         player.addSleep(addedSleep);

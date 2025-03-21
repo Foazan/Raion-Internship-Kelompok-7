@@ -19,10 +19,10 @@ public class GameManager : MonoBehaviour
     public Canvas canvas;
     [SerializeField] private float addedHunger;
     [SerializeField] private float addedSleep;
-    [SerializeField] private float addedSleepStayUpLate;
     private float currentStress;
     private Boolean isSleeping = false;
-    private int currentDay = 1;
+    [SerializeField] private int currentDay = 1;
+    private bool isGameOver;
 
     void Start()
     {
@@ -62,10 +62,10 @@ public class GameManager : MonoBehaviour
             {
                 
             }
-        }
-        else
-        {
-            player.addSleep(-addedSleep);
+            else
+            {
+                player.addSleep(addedSleep);
+            }
         }
 
         currentTime = timeBlocks[currentBlockIndex];
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(MovePlayerHome());
         }
 
-        player.addHunger(-addedHunger);
+        
     }
 
     public int GetCurrentDay()
@@ -121,10 +121,9 @@ public class GameManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null && homePosition != null)
         {
-            yield return StartCoroutine(uiManager.ShowBlackScreen(3f, "Night Has Come, Better Go Home....")); 
-            player.transform.position = homePosition.position;
-            yield return new WaitForSeconds(2f);
-            yield return StartCoroutine(uiManager.HideBlackScreen(3f)); 
+            yield return new WaitForSeconds(5f);
+            StartCoroutine(uiManager.ShowBlackScreen(3f, "Night Has Come, Better Go Home....")); 
+            StartCoroutine(waitTeleport(2f));
         }
         else
         {
@@ -176,7 +175,7 @@ public class GameManager : MonoBehaviour
 
     private void StartToMainView()
     {
-        StartCoroutine(uiManager.ShowBlackScreen(3f, "Loading Game...."));
+        //StartCoroutine(uiManager.ShowBlackScreen(3f));
         StartCoroutine(waitSwitchCamera(mainCamera, restaurantCamera, 2f));
     }
     public void SwitchToMinimarketView()
@@ -184,17 +183,19 @@ public class GameManager : MonoBehaviour
         TransitionToRestaurant();
     }
 
-    public void gameOverCheck()
+    public bool gameOverCheck()
     {
         currentStress = player.getStress();
         if (currentStress >= 100)
         {
+            isGameOver = true;
             StartCoroutine(gameOver());
         }
+        return isGameOver;
     }
     private IEnumerator gameOver()
     {
-        yield return uiManager.ShowBlackScreen(3f, "Linne pulang dan KHS");
+        yield return uiManager.ShowBlackScreen(2f, "Linne pulang dan KHS");
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
@@ -204,5 +205,12 @@ public class GameManager : MonoBehaviour
         a.enabled = true;
         b.enabled = false;
         canvas.worldCamera = a;
+    }
+
+    private IEnumerator waitTeleport(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        player.transform.position = homePosition.position;
+        
     }
 }

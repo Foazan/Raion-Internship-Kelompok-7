@@ -22,6 +22,14 @@ public class Teleport : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        int currentDay = gameManager.GetCurrentDay();
+        bool isOutside = gameObject.name == "PintuRumahLuar";
+        if (isOutside && currentDay == 1)
+        {
+            uiManager.ShowText("It’s still very early so there’s not many people.", "Linne");
+            uiManager.ShowText("I should take a walk around the park. It would help me take my mind off things", "Linne");
+            return;
+        }
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
@@ -42,7 +50,17 @@ public class Teleport : MonoBehaviour
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            TeleportPlayer();
+            bool isInHome = gameObject.name == "PintuKamarLuar";
+            if (gameManager.currentTime == "Malam" && !isInHome)
+            {
+                uiManager.ShowText("I should stay at home.", "Linne");
+                return;
+            }
+            else
+            {
+                TeleportPlayer();
+            }
+            
         }
     }
 

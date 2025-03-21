@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private Animator animator;
     private bool isNearNpc = false;
     public Vector3 lastValidPosition;
+    private bool canMove = false;
     public float getStress()
     {
         return Stress;
@@ -61,22 +62,26 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        Vector3 moveDir = new Vector3(x, 0, 0);
-        rb.linearVelocity = moveDir * speed;
-        if (x != 0)
+        if (canMove == true)
         {
-            sr.flipX = x < 0;
-            animator.SetBool("isWalking", true);
-            animator.SetFloat("input.x", x);
+            float x = Input.GetAxis("Horizontal");
+            Vector3 moveDir = new Vector3(x, 0, 0);
+            rb.linearVelocity = moveDir * speed;
+            if (x != 0)
+            {
+                sr.flipX = x < 0;
+                animator.SetBool("isWalking", true);
+                animator.SetFloat("input.x", x);
 
-            SoundManager.Instance.PlayPlayerWalking();
+                SoundManager.Instance.PlayPlayerWalking();
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
+                SoundManager.Instance.StopPlayerWalking();
+            }
         }
-        else
-        {
-            animator.SetBool("isWalking", false);
-            SoundManager.Instance.StopPlayerWalking();
-        }
+        
 
         CheckForNpcInteraction();
 
@@ -136,5 +141,10 @@ public class Player : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void setPlayerCanWalk()
+    {
+        canMove = true;
     }
 }

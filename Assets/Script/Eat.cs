@@ -7,6 +7,7 @@ public class Eat : MonoBehaviour
     private UI_Manager uiManager;
     private Player player;
     [SerializeField] private float addedHunger;
+    private bool isDayOne = true;
 
     void Start()
     {
@@ -30,14 +31,30 @@ public class Eat : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        int currentDay = gameManager.GetCurrentDay();
+        Debug.Log("Current Day: " + currentDay);
+        Debug.Log("Current Time: " + gameManager.currentTime);
+
+        if (isDayOne == true && gameManager.currentTime == "Pagi" && Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                StartEating();
-            }
+            
+           
+                Debug.Log("Player mencoba makan di hari pertama. Hanya menampilkan teks.");
+                uiManager.ShowText("I already ate", "Linne");
+                isDayOne = false;
+            
+        }
+
+        else if (isDayOne && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Player memulai makan");
+            StartEating();
         }
     }
+
+
 
     private void OnTriggerExit(Collider other)
     {
