@@ -22,7 +22,7 @@ public class Gaming : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
+        if (other.CompareTag("Player"))
         {
             uiManager.ShowInteractMessage();
         }
@@ -30,7 +30,7 @@ public class Gaming : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime == "Malam")
+        if (other.CompareTag("Player"))
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -54,9 +54,7 @@ public class Gaming : MonoBehaviour
 
     private IEnumerator GamingRoutine()
     {
-        int tomorrowDay = gameManager.GetCurrentDay() + 1;
-        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Playing Games Until" + $"Day {tomorrowDay} Begin...."));
-        gameManager.StayUpLate();
+        yield return StartCoroutine(uiManager.ShowBlackScreen(2f, "Playing Games...."));
         gameManager.AdvanceTime();
         player.addStress(-addedStress);
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));

@@ -1,19 +1,23 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Teleport : MonoBehaviour
 {
-    [SerializeField]
-    private Transform teleportTarget;   
+    [SerializeField] 
+    private Transform teleportTarget;
+    float duration = 1f;
     private bool isPlayerInRange = false;
     private GameManager gameManager;
     private UI_Manager uiManager;
+    private Player player;
 
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,19 +42,24 @@ public class Teleport : MonoBehaviour
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            StartCoroutine(TeleportPlayer());
+            TeleportPlayer();
         }
     }
 
-    private IEnumerator TeleportPlayer()
+    private void TeleportPlayer()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null && teleportTarget != null)
         {
-            yield return StartCoroutine(uiManager.ShowBlackScreen(1f, "Moving...."));
-            player.transform.position = teleportTarget.position;
-            yield return new WaitForSeconds(1f);
-            yield return StartCoroutine(uiManager.HideBlackScreen(2f));
+            StartCoroutine(uiManager.ShowBlackScreen(2f, "Moving...."));
+            StartCoroutine(waitTeleport(duration));
+            
         }
+    }
+
+    private IEnumerator waitTeleport(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        player.transform.position = teleportTarget.position;
+        
     }
 }

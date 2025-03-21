@@ -250,6 +250,6 @@ public class UI_Manager : MonoBehaviour
     }
     public IEnumerator HideBlackScreen(float duration)
     {
-        yield return null;
+        yield return duration;
     }
 }

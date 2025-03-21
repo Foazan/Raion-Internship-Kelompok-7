@@ -7,7 +7,7 @@ public class Sleep : MonoBehaviour
     private GameManager gameManager;
     private UI_Manager uiManager;
     private Player player;
-    private Boolean isSleeping;
+    
     [SerializeField] private float addedSleep;
 
 
@@ -56,16 +56,12 @@ public class Sleep : MonoBehaviour
         StartCoroutine(SleepRoutine());
     }
 
-    public Boolean getSleeping()
-    {
-        return isSleeping;
-    }
 
     private IEnumerator SleepRoutine()
     {
         int tomorrowDay = gameManager.GetCurrentDay() + 1;
         yield return StartCoroutine(uiManager.ShowBlackScreen(2f, $"Day {tomorrowDay} Begin...."));
-        isSleeping = true;
+        gameManager.setSleeping();
         gameManager.AdvanceTime();
         player.addSleep(addedSleep);
         yield return StartCoroutine(uiManager.HideBlackScreen(2f));

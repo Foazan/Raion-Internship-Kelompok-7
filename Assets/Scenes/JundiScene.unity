@@ -6951,6 +6951,7 @@ Transform:
   - {fileID: 175009828}
   - {fileID: 1680191083}
   - {fileID: 1755933549}
+  - {fileID: 2047590143}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &895445970
@@ -7195,7 +7196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc30abf6915bbe44abea513b8cee83ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 1680191083}
+  teleportTarget: {fileID: 0}
 --- !u!65 &903107190
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7953,7 +7954,7 @@ Transform:
   m_GameObject: {fileID: 994120408}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.81, y: 0.46, z: 0.4}
+  m_LocalPosition: {x: 0.21, y: 0.46, z: 0.4}
   m_LocalScale: {x: 1, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11397,7 +11398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc30abf6915bbe44abea513b8cee83ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 1838790443}
+  teleportTarget: {fileID: 0}
 --- !u!65 &1624351078
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12296,7 +12297,7 @@ Transform:
   m_GameObject: {fileID: 1790349255}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12635,7 +12636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc30abf6915bbe44abea513b8cee83ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 1624351079}
+  teleportTarget: {fileID: 0}
 --- !u!65 &1838790445
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14546,12 +14547,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2047590139}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.13, y: 1.5734, z: 5.39}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.4600029, y: 1.0733999, z: 6.629222}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 863408949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2047590144
 MonoBehaviour:
@@ -15416,7 +15417,6 @@ SceneRoots:
   - {fileID: 1986201771}
   - {fileID: 1029344662}
   - {fileID: 1178250945}
-  - {fileID: 2047590143}
   - {fileID: 1984122513}
   - {fileID: 1403922814}
   - {fileID: 1838790443}

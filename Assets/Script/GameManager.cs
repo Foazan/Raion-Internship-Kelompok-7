@@ -169,12 +169,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartToMainView()
     {
-        StartCoroutine(uiManager.ShowBlackScreen(0f, "Loading Game...."));
+        StartCoroutine(uiManager.ShowBlackScreen(3f, "Loading Game...."));
         mainCamera.enabled = true;
         restaurantCamera.enabled = false;
         canvas.worldCamera = mainCamera;
-        yield return new WaitForSeconds(2f);
-        StartCoroutine(uiManager.HideBlackScreen(1f));
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(uiManager.HideBlackScreen(3f));
     }
     public void SwitchToMinimarketView()
     {
