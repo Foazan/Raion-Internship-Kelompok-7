@@ -19,6 +19,7 @@ public class NpcManager : MonoBehaviour
     private int duration;
     [SerializeField] private int radiusLimit;
     [SerializeField] private GameObject rightLimit, leftLimit;
+   
     private void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();

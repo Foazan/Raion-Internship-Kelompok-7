@@ -253,4 +253,35 @@ public class UI_Manager : MonoBehaviour
     {
         yield return duration;
     }
+
+    public void ShowRandomNPCDialogueRestaurant(bool isCorrectOrder)
+    {
+        string[] RestaaurantCorrectOrderResponses = {
+        "Thank you.",
+        "Yes, finally!!!",
+        "I hope my friend likes this."
+    };
+
+        string[] RestaurantIncorrectOrderResponses = {
+        "Ugh, can’t they afford better customer service.",
+        "Wow this sure would look appetizing to my dog.",
+        "UGH! You can’t even get that right???"
+    };
+
+        string selectedDialogue;
+
+        if (isCorrectOrder)
+        {
+            selectedDialogue = RestaaurantCorrectOrderResponses[UnityEngine.Random.Range(0, RestaaurantCorrectOrderResponses.Length)];
+            ShowNpcPortraitCenterNormal();
+        }
+        else
+        {
+            selectedDialogue = RestaurantIncorrectOrderResponses[UnityEngine.Random.Range(0, RestaurantIncorrectOrderResponses.Length)];
+            ShowNpcPotraitCenterAngry();
+        }
+
+        ShowText(selectedDialogue, "Customer");
+    }
+
 }

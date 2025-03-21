@@ -5,9 +5,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Teleport : MonoBehaviour
 {
-    [SerializeField] 
-    private Transform teleportTarget;
-    float duration = 1f;
+    [SerializeField] private Transform teleportTarget;
+    [SerializeField] private bool isDoor = false;
+    float duration = 2f;
     private bool isPlayerInRange = false;
     private GameManager gameManager;
     private UI_Manager uiManager;
@@ -50,7 +50,13 @@ public class Teleport : MonoBehaviour
     {
         if (player != null && teleportTarget != null)
         {
-            StartCoroutine(uiManager.ShowBlackScreen(2f, "Moving...."));
+            StartCoroutine(uiManager.ShowBlackScreen(3f, "Moving...."));
+
+            if (isDoor)
+            {
+                SoundManager.Instance.PlayDoorOpening();
+            }
+
             StartCoroutine(waitTeleport(duration));
             
         }

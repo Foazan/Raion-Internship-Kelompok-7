@@ -46,6 +46,7 @@ public class RestaurantActivity : Activity
 
     protected override void StartActivity()
     {
+        SoundManager.Instance.PlayDoorOpening();
         gameManager.SwitchToRestaurantView();
         uiManager.ShowRestaurantBackground();
         uiManager.HideInteractMessage();
@@ -169,17 +170,17 @@ public class RestaurantActivity : Activity
 
     private void ShowOrderSummary()
     {
-        uiManager.ShowText($"Saya Mau Pesan:", "Pelanggan");
+        uiManager.ShowText($"I am ordering:", "Customer");
         foreach (var item in customerOrder)
         {
-            uiManager.ShowText($"- {item.Key} x{item.Value}", "Pelanggan");
+            uiManager.ShowText($"- {item.Key} x{item.Value}", "Customer");
         }
     }
 
     private void ShowMenu()
     {
         uiManager.ShowMenuUI();
-        uiManager.ShowText("Silakan pilih menu.", "Kasir");
+        uiManager.ShowText("Select the menus.", "Cashier");
     }
 
     private void AddItem(string item)
@@ -194,7 +195,7 @@ public class RestaurantActivity : Activity
 
         if (IsOrderComplete())
         {
-            uiManager.ShowText("Anything else? Tekan Spasi jika pesanan selesai.", "Kasir");
+            uiManager.ShowText("Anything else? press space if order completed.", "Cashier");
             ConfirmOrder();
         }
     }
@@ -209,7 +210,7 @@ public class RestaurantActivity : Activity
 
     private void ConfirmOrder()
     {
-        uiManager.ShowText("Ini pesanan saya? Saya cek dulu", "Pelanggan");
+        uiManager.ShowText("Is this my order?", "Customer");
         StartCoroutine(ConfirmOrderWithDelay());
     }
 
@@ -220,14 +221,14 @@ public class RestaurantActivity : Activity
         bool isCorrect = CheckOrder();
         if (isCorrect)
         {
-            uiManager.ShowText("Wah, pesanan saya sudah benar! Terima kasih!", "Pelanggan");
+            uiManager.ShowRandomNPCDialogueRestaurant(true);
             player.addMoney(addedMoney);
             player.addStress(addedStress);
             player.addMoney(addedMoney);
         }
         else
         {
-            uiManager.ShowText("Ini bukan pesanan saya! Saya kecewa!", "Pelanggan");
+            uiManager.ShowRandomNPCDialogueRestaurant(false);
             uiManager.ShowLinneGloomy();
             uiManager.HideNpcPortraitCenter();
             uiManager.ShowNpcPotraitCenterAngry();
@@ -253,7 +254,7 @@ public class RestaurantActivity : Activity
 
     private void ShowAddedItem(string item)
     {
-        uiManager.ShowText($"Sudah memasukkan {item}.", "Kasir");
+        uiManager.ShowText($"{item} selected.", "Cashier");
     }
 
     private void FinishOrder()
@@ -270,7 +271,7 @@ public class RestaurantActivity : Activity
 
     private IEnumerator FinishOrderWithDelay()
     {
-        uiManager.ShowText("Pesanan selesai!", "Kasir");
+        uiManager.ShowText("Order completed!", "Cashier");
         yield return new WaitForSeconds(3f);
         gameManager.SwitchToMainView();
         uiManager.HideMenuUI();

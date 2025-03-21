@@ -11,6 +11,7 @@ public class StatsActivity : Activity
     [SerializeField] private Boolean BlackScreen;
     [SerializeField] private String blackScreenText;
     [SerializeField] private TextMeshProUGUI screenText;
+    [SerializeField] private bool isAdvanceTime = false;
     protected override void Start()
     {
         base.Start();
@@ -23,7 +24,7 @@ public class StatsActivity : Activity
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && gameManager.currentTime != "Siang")
         {
             uiManager.ShowInteractMessage();
         }
@@ -31,7 +32,7 @@ public class StatsActivity : Activity
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && gameManager.currentTime != "Siang")
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -42,7 +43,7 @@ public class StatsActivity : Activity
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && gameManager.currentTime != "Siang")
         {
             uiManager.HideInteractMessage();
         }
@@ -71,5 +72,10 @@ public class StatsActivity : Activity
         player.addHunger(Hunger);
         player.addSleep(Sleep);
         player.addMoney(MoneyCost);
+
+        if (isAdvanceTime == true)
+        {
+            gameManager.AdvanceTime();
+        }
     }
    }

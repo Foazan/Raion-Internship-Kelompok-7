@@ -69,10 +69,13 @@ public class Player : MonoBehaviour
             sr.flipX = x < 0;
             animator.SetBool("isWalking", true);
             animator.SetFloat("input.x", x);
+
+            SoundManager.Instance.PlayPlayerWalking();
         }
         else
         {
             animator.SetBool("isWalking", false);
+            SoundManager.Instance.StopPlayerWalking();
         }
 
         CheckForNpcInteraction();
