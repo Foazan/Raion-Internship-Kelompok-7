@@ -15,6 +15,7 @@ public class UI_Manager : MonoBehaviour
     public TextMeshProUGUI blackScreenText;
     public GameObject interactMessage;
     [SerializeField] private GameObject menuText;
+    [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private GameObject menuBox;
     [SerializeField] private GameObject npcPortraitNormal;
     [SerializeField] private GameObject npcPortraitAngry;
@@ -26,6 +27,8 @@ public class UI_Manager : MonoBehaviour
     public Image blackScreen;
     private Queue<string> textQueue = new Queue<string>();
     private Queue<string> nameQueue = new Queue<string>();
+    private Queue<string> tutorialQueue = new Queue<string>();
+    private bool isTutorialDisplaying = false;
     private bool isTextDisplaying = false;
     public Canvas canvas;
     private bool start = true;
@@ -96,6 +99,39 @@ public class UI_Manager : MonoBehaviour
 
         HideNpcPortrait();
         HideNpcPortraitCenter();
+    }
+
+    public void ShowTutorial(string message)
+    {
+        tutorialQueue.Enqueue(message);
+        if (!isTutorialDisplaying)
+        {
+            StartCoroutine(DisplayTutorial());
+        }
+    }
+
+
+    private IEnumerator DisplayTutorial()
+    {
+        isTutorialDisplaying = true;
+
+        while (tutorialQueue.Count > 0)
+        {
+            tutorialText.text = "";
+            string currentMessage = tutorialQueue.Dequeue();
+
+            foreach (char letter in currentMessage)
+            {
+                tutorialText.text += letter;
+                yield return new WaitForSeconds(0.02f);
+            }
+
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        }
+
+        isTutorialDisplaying = false;
+        tutorialText.text = "";
+        
     }
 
     public void ClearText()
@@ -333,6 +369,7 @@ public class UI_Manager : MonoBehaviour
         blackScreen.color = Color.clear;
         blackScreenText.text = "";
         player.setPlayerCanWalk();
+        ShowTutorial("Press A to move left and D to move right");
     }
 
 

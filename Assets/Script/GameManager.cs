@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private Boolean isSleeping = false;
     [SerializeField] private int currentDay = 1;
     private bool isGameOver;
+    private bool isGameWinning;
 
     void Start()
     {
@@ -46,42 +47,42 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         gameOverCheck();
+        
     }
 
     public void AdvanceTime()
     {
-        currentBlockIndex++;
-
-        if (currentBlockIndex >= timeBlocks.Length)
+        if (currentTime == "Malam") 
         {
-            currentBlockIndex = 0;
-            currentDay++;
+            currentBlockIndex = 0; 
+            currentDay++; 
             Debug.Log("Hari Baru Dimulai!");
-            
-            if (isSleeping == true)
-            {
-                
-            }
-            else
-            {
-                player.addSleep(addedSleep);
-            }
+            isSleeping = false; 
+        }
+        else
+        {
+            currentBlockIndex++; 
         }
 
-        currentTime = timeBlocks[currentBlockIndex];
+        currentTime = timeBlocks[currentBlockIndex]; 
         UpdateTimeBlock();
 
         if (currentTime == "Malam")
         {
-            StartCoroutine(MovePlayerHome());
+            StartCoroutine(MovePlayerHome()); 
         }
-
-        
+        gameWinningCheck();
     }
+
 
     public int GetCurrentDay()
     {
         return currentDay;
+    }
+
+    public String GetCurrentTime()
+    {
+        return currentTime;
     }
 
     public Boolean getSleeping()
@@ -194,6 +195,16 @@ public class GameManager : MonoBehaviour
         }
         return isGameOver;
     }
+
+    public bool gameWinningCheck()
+    {
+        currentStress = player.getStress();
+        if (currentStress < 100 && currentDay >= 7)
+        {
+            StartCoroutine(WinningScreen());
+        }
+        return isGameWinning;
+    }
     private IEnumerator gameOver()
     {
         yield return uiManager.ShowBlackScreen(2f, "Linne pulang dan KHS");
@@ -214,4 +225,21 @@ public class GameManager : MonoBehaviour
         player.transform.position = homePosition.position;
         
     }
+
+    private void CheckWinningCondition()
+    {
+        if (currentDay > 9 && player.getStress() < 100)
+        {
+            StartCoroutine(WinningScreen());
+        }
+    }
+
+    private IEnumerator WinningScreen()
+    {
+        yield return uiManager.ShowBlackScreen(5f,
+            "It’s been a week since I started going out. Meeting people is still terrifying, but I handle interacting with people better now. I hope one day I could befriend someone.");
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+
 }

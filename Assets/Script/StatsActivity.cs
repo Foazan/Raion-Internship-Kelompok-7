@@ -14,25 +14,50 @@ public class StatsActivity : Activity
     [SerializeField] private TextMeshProUGUI screenText;
     [SerializeField] private bool isAdvanceTime = false;
     
-    
+
+
+
+
     protected override void Start()
     {
         base.Start();
         player = GameObject.Find("Player").GetComponent<Player>();
+        
     }
     protected override void Update()
     {
         base.Update();
         
+
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime != "Siang")
+        int currentDay = gameManager.GetCurrentDay();
+        String currentTime = gameManager.GetCurrentTime();
+        bool isRestaurant = gameObject.name == "Restaurant";
+        bool isMinimarket = gameObject.name == "marketMinigame";
+        bool isPark = gameObject.name == "Gerbang_Taman";
+        if (other.CompareTag("Player"))
         {
-            uiManager.ShowInteractMessage();
+            if (gameManager.currentTime != "Siang")
+            {
+                
+                if (currentDay == 1 && (isRestaurant || isMinimarket))
+                {
+                    uiManager.ShowTutorial("Linne can work to earn money, money can be spent on activities outside of her home.");
+
+                }
+                else if (currentDay == 1 && isPark)
+                {
+                    uiManager.ShowTutorial("Doing certain activities will affect Linne's stress, hunger, and sleep meter. Try to keep them balanced.");
+
+                }
+                uiManager.ShowInteractMessage();
+            }
         }
     }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -81,17 +106,11 @@ public class StatsActivity : Activity
                 uiManager.ShowText("I should take a walk around the park.", "Linne");
                 return;
             }
-
-            return;
         }
 
-        else if (BlackScreen)
-        {
-            StartCoroutine(uiManager.ShowBlackScreen(4f, blackScreenText));
-        }
-        StartCoroutine(WaitToBlack(3f));
-        EndActivity();
+        StartCoroutine(HandleActivityStart());
     }
+
 
     protected override void EndActivity()
     {
@@ -119,4 +138,15 @@ public class StatsActivity : Activity
             uiManager.ShowText("Alright. I feel much better. Now I should try to get money.", "Linne");
         }
     }
-   }
+
+    private IEnumerator HandleActivityStart()
+    {
+        if (BlackScreen)
+    {
+        yield return StartCoroutine(uiManager.ShowBlackScreen(4f, blackScreenText)); 
+    }
+
+        yield return StartCoroutine(WaitToBlack(3f)); 
+        EndActivity();
+    }
+}
