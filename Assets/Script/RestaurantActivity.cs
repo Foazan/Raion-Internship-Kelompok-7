@@ -55,35 +55,35 @@ public class RestaurantActivity : Activity
         StartWork(); 
     }
 
-    public IEnumerator WaitForOptionSelection()
-    {
-        bool optionSelected = false;
+    //public IEnumerator WaitForOptionSelection()
+    //{
+    //    bool optionSelected = false;
 
-        while (!optionSelected)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime == "Siang" || gameManager.currentTime == "Pagi"))
-            {
-                optionSelected = true;
-                StartActivity();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && gameManager.currentTime != "Siang")
-            {
-                optionSelected = true;
-                BuyFood();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && gameManager.currentTime == "Siang")
-            {
-                uiManager.ShowText("I have to work", "Linne");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime != "Siang" || gameManager.currentTime != "Pagi"))
-            {
-                uiManager.ShowText("Sorry you can't work right now", "Cashier");
-                StartCoroutine(EndAfterNotDoingAnything());
-                optionSelected = true;
-            }
-            yield return null;
-        }
-    }
+    //    while (!optionSelected)
+    //    {
+    //        if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime == "Siang" || gameManager.currentTime == "Pagi"))
+    //        {
+    //            optionSelected = true;
+    //            StartActivity();
+    //        }
+    //        else if (Input.GetKeyDown(KeyCode.Alpha2) && gameManager.currentTime != "Siang")
+    //        {
+    //            optionSelected = true;
+    //            BuyFood();
+    //        }
+    //        else if (Input.GetKeyDown(KeyCode.Alpha2) && gameManager.currentTime == "Siang")
+    //        {
+    //            uiManager.ShowText("I have to work", "Linne");
+    //        }
+    //        else if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime != "Siang" || gameManager.currentTime != "Pagi"))
+    //        {
+    //            uiManager.ShowText("Sorry you can't work right now", "Cashier");
+    //            StartCoroutine(EndAfterNotDoingAnything());
+    //            optionSelected = true;
+    //        }
+    //        yield return null;
+    //    }
+    //}
 
     private void StartWork()
     {
@@ -99,46 +99,6 @@ public class RestaurantActivity : Activity
 
         ShowOrderSummary();
         ShowMenu();
-    }
-
-    private void BuyFood()
-    {
-
-        if (player.getMoney() >= foodCost)
-        {
-            player.addMoney(-foodCost);
-            player.addHunger(addedHunger);
-            uiManager.ShowText("Ah this is gonna put a dent in my pocket… \nbut it’s nice to eat good food every once a while.", "Linne");
-        }
-        else
-        {
-            uiManager.ShowText("Uang Anda tidak cukup untuk membeli makanan!", "Kasir");
-        }
-
-        StartCoroutine(EndAfterPurchase());
-    }
-
-    private IEnumerator EndAfterPurchase()
-    {
-        yield return new WaitForSeconds(3f);
-        gameManager.SwitchToMainView();
-        uiManager.HideText();
-        uiManager.HideRestaurantBackground();
-        gameManager.AdvanceTime();
-        EndActivity();
-        uiManager.ShowLinneNormal();
-        uiManager.UpdateMoneyText();
-    }
-
-    private IEnumerator EndAfterNotDoingAnything()
-    {
-        yield return new WaitForSeconds(3f);
-        gameManager.SwitchToMainView();
-        uiManager.HideText();
-        uiManager.HideRestaurantBackground();
-        EndActivity();
-        uiManager.ShowLinneNormal();
-        uiManager.UpdateMoneyText();
     }
 
     private void GenerateRandomOrder()

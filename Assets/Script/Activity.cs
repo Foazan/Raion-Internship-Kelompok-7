@@ -18,18 +18,18 @@ public abstract class Activity : MonoBehaviour
 
     protected virtual void Update()
     {
-        currentDay = gameManager.GetCurrentDay();
-        if (isInActivityZone && Input.GetKeyDown(KeyCode.E) && !isProcessingActivity && currentDay == 1 && gameManager.currentTime == "Pagi")
-        {
-            uiManager.ShowText("I should take a walk around the park.", "Linne");
-            return;
-        }
-        if (isInActivityZone && Input.GetKeyDown(KeyCode.E) && !isProcessingActivity)
-        {
-            isProcessingActivity = true; 
-            Debug.Log($"Memulai {activityName}...");
-            StartActivity();
-        }
+        //currentDay = gameManager.GetCurrentDay();
+        //if (isInActivityZone && Input.GetKeyDown(KeyCode.E) && !isProcessingActivity && currentDay == 1 && gameManager.currentTime == "Pagi")
+        //{
+        //    uiManager.ShowText("I should take a walk around the park.", "Linne");
+        //    return;
+        //}
+        //if (isInActivityZone && Input.GetKeyDown(KeyCode.E) && !isProcessingActivity)
+        //{
+        //    isProcessingActivity = true;
+        //    Debug.Log($"Memulai {activityName}...");
+        //    StartActivity();
+        //}
 
     }
 

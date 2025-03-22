@@ -23,12 +23,30 @@ public class Teleport : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         int currentDay = gameManager.GetCurrentDay();
+        String currentTime = gameManager.currentTime;
         bool isOutside = gameObject.name == "PintuRumahLuar";
-        if (isOutside && currentDay == 1)
+        bool isInside = gameObject.name == "PintuRumahDalam";
+        if (isOutside && currentDay == 1 && currentTime == "Pagi")
         {
             uiManager.ShowText("It’s still very early so there’s not many people.", "Linne");
             uiManager.ShowText("I should take a walk around the park. It would help me take my mind off things", "Linne");
-            return;
+            
+        }
+        if (isInside && currentDay == 2 && currentTime == "Malam")
+        {
+            uiManager.ShowText("Another day done. \nMeeting other people still makes me feel like I’m going to faint, \nbut at least I don’t feel the strong urge to run away.", "Linne");
+        }
+        if (isInside && currentDay == 4 && currentTime == "Malam")
+        {
+            uiManager.ShowText("I think I got a lot better at talking too. \nThe customers at work are nicer \nand my manager stopped scolding me so much.", "Linne");
+        }
+        if (isInside && currentDay == 6 && currentTime == "Malam")
+        {
+            uiManager.ShowText("Tomorrow’s going to be a new beginning…", "Linne");
+        }
+        if (isInside && currentDay == 7 && currentTime == "Malam")
+        {
+            uiManager.ShowText("I did it. I finally did it. \nI went outside regularly for a week. Ahaha! \nI can’t believe… I’m so proud of myself. \nFrom this day on, I promise I'll keep getting better at talking to others!", "Linne");
         }
         if (other.CompareTag("Player"))
         {

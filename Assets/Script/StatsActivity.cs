@@ -36,7 +36,9 @@ public class StatsActivity : Activity
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && gameManager.currentTime != "Siang")
+        bool isRestaurant = gameObject.name == "Restaurant";
+        bool isMinimarket = gameObject.name == "marketMinigame";
+        if (other.CompareTag("Player") && gameManager.currentTime != "Siang" && !isMinimarket && !isRestaurant)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -56,7 +58,7 @@ public class StatsActivity : Activity
     public override void StartActivity()
     {
         base.StartActivity();
-
+        currentDay = gameManager.GetCurrentDay();
         bool isPark = gameObject.name == "Gerbang_Taman";
         bool isEating = gameObject.name == "Kulkas";
         bool isGaming = gameObject.name == "Game";
@@ -80,10 +82,10 @@ public class StatsActivity : Activity
                 return;
             }
 
-            
+            return;
         }
 
-        if (BlackScreen)
+        else if (BlackScreen)
         {
             StartCoroutine(uiManager.ShowBlackScreen(4f, blackScreenText));
         }
