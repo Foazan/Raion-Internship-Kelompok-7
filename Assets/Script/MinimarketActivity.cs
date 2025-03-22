@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -35,7 +36,7 @@ public class MinimarketActivity : Activity
     {
         base.Start();
         NpcStartPosition = NPC.transform.position;
-        banyakCustomer = Random.Range(4, 7);
+        banyakCustomer = Random.Range(2, 5);
         activityName = "Melayani Pembeli";
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         UpdateTotalDisplay();
@@ -48,9 +49,13 @@ public class MinimarketActivity : Activity
     
     public override void StartActivity()
     {
-        gameManager.SwitchToMinimarketView();
-        StartCoroutine(NpcComing());
+        gameManager.SwitchtoMinimarketView();
+        ContinueActivity();
+    }
 
+    private void ContinueActivity()
+    {
+        StartCoroutine(NpcComing());
     }
 
     private IEnumerator GenerateRandomOrder()
@@ -155,6 +160,7 @@ public class MinimarketActivity : Activity
         {
             Debug.Log("Anjay bener");
         }
+        SoundManager.Instance.PlayCashier();
 
         banyakCustomer--;
         StartCoroutine(FinishTransaction());
@@ -173,13 +179,20 @@ public class MinimarketActivity : Activity
         NPC.transform.position = NpcStartPosition;
         if (banyakCustomer != 0)
         {
-            StartActivity();
+            ContinueActivity();
         }
         else
         {
             EndActivity();
+
         }
         
+    }
+
+    protected override void EndActivity()
+    {
+        base.EndActivity();
+        gameManager.SwitchToMainView();
     }
 
     private void UpdateTotalDisplay()

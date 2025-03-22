@@ -155,6 +155,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("Beralih ke tampilan utama.");
     }
 
+    public void SwitchFromMinimarket()
+    {
+        StartCoroutine(uiManager.ShowBlackScreen(2f, "Leaving...."));
+        StartCoroutine(waitSwitchCamera(mainCamera, minimarketCamera, 2f));
+    }
     public void TransitionToRestaurant()
     {
         StartCoroutine(uiManager.ShowBlackScreen(2f, "Enter the Restaurant...."));
@@ -177,10 +182,6 @@ public class GameManager : MonoBehaviour
     {
         //StartCoroutine(uiManager.ShowBlackScreen(3f));
         StartCoroutine(waitSwitchCamera(mainCamera, restaurantCamera, 2f));
-    }
-    public void SwitchToMinimarketView()
-    {
-        TransitionToRestaurant();
     }
 
     public bool gameOverCheck()

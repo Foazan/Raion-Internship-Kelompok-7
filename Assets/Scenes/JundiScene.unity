@@ -2783,8 +2783,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 5, z: 32}
-  m_Center: {x: 0, y: 2, z: -15.5}
+  m_Size: {x: 5, y: 5, z: 111.121124}
+  m_Center: {x: 0, y: 2, z: -55.060562}
 --- !u!114 &209544348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2811,7 +2811,7 @@ Transform:
   m_GameObject: {fileID: 209544344}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 363.92874, y: 0.064258575, z: 23.26615}
+  m_LocalPosition: {x: 363.92874, y: 0.064258575, z: 98.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3866,12 +3866,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoneyCost: 0
-  Stress: 0
-  Hunger: 0
+  Stress: 20
+  Hunger: 10
   Sleep: 0
   BlackScreen: 1
   blackScreenText: MAKAN
-  screenText: {fileID: 0}
+  screenText: {fileID: 746939979}
   isAdvanceTime: 0
 --- !u!114 &309471627
 MonoBehaviour:
@@ -5933,7 +5933,7 @@ Transform:
   m_GameObject: {fileID: 586377056}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalPosition: {x: 4, y: 0, z: 23.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8300,7 +8300,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1198816273, guid: c06ffaf26687471448d514dc44191e4b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10545,7 +10545,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -808965946, guid: d04580b15125cfb429bc00c4b783a772, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -11328,12 +11328,12 @@ GameObject:
   - component: {fileID: 1102657751}
   - component: {fileID: 1102657750}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: CameraMinimarket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!20 &1102657749
 Camera:
   m_ObjectHideFlags: 0
@@ -13673,7 +13673,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -15489,7 +15489,7 @@ Transform:
   m_GameObject: {fileID: 1568036974}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 19.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19263,7 +19263,7 @@ Transform:
   m_GameObject: {fileID: 2009078992}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 38.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

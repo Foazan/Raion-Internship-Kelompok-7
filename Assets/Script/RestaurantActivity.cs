@@ -52,18 +52,10 @@ public class RestaurantActivity : Activity
         gameManager.SwitchToRestaurantView();
         uiManager.ShowRestaurantBackground();
         uiManager.HideInteractMessage();
-        ShowRestaurantOptions();
+        StartWork(); 
     }
 
-    private void ShowRestaurantOptions()
-    {
-        uiManager.ShowText("What do you want to do", "Cashier");
-        uiManager.ShowText("1. Work \n2. Buy food \nchoose number and klik space", "Cashier");
-
-        StartCoroutine(WaitForOptionSelection());
-    }
-
-    private IEnumerator WaitForOptionSelection()
+    public IEnumerator WaitForOptionSelection()
     {
         bool optionSelected = false;
 
@@ -72,7 +64,7 @@ public class RestaurantActivity : Activity
             if (Input.GetKeyDown(KeyCode.Alpha1) && (gameManager.currentTime == "Siang" || gameManager.currentTime == "Pagi"))
             {
                 optionSelected = true;
-                StartWork();
+                StartActivity();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2) && gameManager.currentTime != "Siang")
             {

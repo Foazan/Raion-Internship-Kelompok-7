@@ -46,7 +46,7 @@ public class MultipleChoiceInteracUI : MonoBehaviour
 
         if(canInteract && Input.GetKeyDown(KeyCode.E) && pilihan == 1 && restaurant)
         {
-            gameObject.GetComponent<RestaurantActivity>().StartActivity();
+            gameObject.GetComponent<RestaurantActivity>().WaitForOptionSelection();
         }
         if(canInteract && Input.GetKeyDown(KeyCode.E) && pilihan == 2 && restaurant)
         {
