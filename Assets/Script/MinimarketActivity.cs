@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class MinimarketActivity : Activity
 {
+    private bool lancar;
     private Dictionary<string, float> customerOrder = new Dictionary<string, float>();
     private float totalAmount = 0f; 
     private float paymentAmount = 0f; 
@@ -40,6 +41,7 @@ public class MinimarketActivity : Activity
         activityName = "Melayani Pembeli";
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         UpdateTotalDisplay();
+        StartActivity();
     }
     protected override void Update()
     {
@@ -154,7 +156,7 @@ public class MinimarketActivity : Activity
 
         if (Mathf.Abs(changeAmount - expectedChange) > 0.01f)
         {
-            
+            lancar = false;
         }
         else
         {
@@ -183,6 +185,7 @@ public class MinimarketActivity : Activity
         }
         else
         {
+
             EndActivity();
 
         }
@@ -191,6 +194,17 @@ public class MinimarketActivity : Activity
 
     protected override void EndActivity()
     {
+        player.addMoney(100f);
+        if (lancar && player.getStress() > 60)
+        {
+            player.addStress(60 + player.getStress());
+        }
+        else if (!lancar && player.getStress() > 80)
+        {
+            player.addStress(80 + player.getStress());
+        }
+            player.addSleep(-50);
+            player.addHunger(-50);
         base.EndActivity();
         gameManager.SwitchToMainView();
     }

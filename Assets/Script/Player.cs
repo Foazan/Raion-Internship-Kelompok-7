@@ -38,14 +38,28 @@ public class Player : MonoBehaviour
     public void addStress(float Stress)
     {
         this.Stress += Stress;
+        if(this.Stress < 0)
+        {
+            this.Stress = 0;
+        }
     }
     public void addHunger(float Hunger)
     {
         this.Hunger += Hunger;
+        if (this.Hunger <= 0)
+        {
+            addStress(20);
+            Hunger = 0;
+        }
     }
     public void addSleep(float Sleep)
     {
         this.Sleep += Sleep;
+        if(this.Sleep <= 0)
+        {
+            addStress(20);
+            Sleep = 0;
+        }
     }
 
     public void addMoney(float Money)

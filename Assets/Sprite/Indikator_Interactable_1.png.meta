@@ -103,7 +103,7 @@ TextureImporter:
         x: 105
         y: 1045
         width: 110
-        height: 172
+        height: 85
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,10 +122,10 @@ TextureImporter:
       name: Indikator_Interactable_1_13
       rect:
         serializedVersion: 2
-        x: 396
-        y: 1048
-        width: 179
-        height: 175
+        x: 425
+        y: 1045
+        width: 110
+        height: 85
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -932,6 +932,446 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_0
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dba08a26c6885d74daf6cff0a7b6c416
+      internalID: -822867235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1140
+        width: 35
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45d3c5dd48669154e9705a2059c49f11
+      internalID: -35918270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_2
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 1140
+        width: 35
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15a0e1fa86d1696439881ddc35e2ed83
+      internalID: -533510657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_3
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76e86b9dbdf716045be4ebaa569626a3
+      internalID: 1144450051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_4
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23e404f1d66ae8847b73c4b0fb5d2455
+      internalID: 1152017164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_5
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ac2ac94664316f43974607e7e188715
+      internalID: -687596849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_6
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 720725309e7904140a2c347fb2f6aabb
+      internalID: -284521922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_7
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc38fbfe8a7b65f41a0ce554d37ef0cb
+      internalID: 717709147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_8
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3d81699773362d4bb1dae2c88fb2c2a
+      internalID: -1857978837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_9
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 1140
+        width: 30
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38f7a2c02b9ef2141ac6bea0fbd50060
+      internalID: -499772239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_10
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1140
+        width: 35
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf4044a7d8bec13418903420caa99678
+      internalID: -1849332253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_11
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 1140
+        width: 40
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 043839e560a42de48ab913b2416aaa9b
+      internalID: -1555517305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_50
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 1037
+        width: 126
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1793ddb0d9905ba4b94a3d10e56af2fb
+      internalID: 351032481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_51
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 1044
+        width: 182
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 766f68ce96aff914aa52aa42bd1246b0
+      internalID: -1698184997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_52
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 1039
+        width: 166
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a36458a4014d1041bb56f837285c8b4
+      internalID: 300849271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_53
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 714
+        width: 150
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec573f64c9cd1cf41b4f1f4a0016c364
+      internalID: 1638992823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_54
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 714
+        width: 151
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f4bd68859cabf54993339846a912d18
+      internalID: 1308002902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_55
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 716
+        width: 244
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a46550d8d86344449b0746035c8c0d43
+      internalID: -1615390409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_56
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 397
+        width: 327
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57cf43782280c1645840eb00f86c7cac
+      internalID: -1226519547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indikator_Interactable_1_57
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 404
+        width: 209
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9dd19592f26d2444d8917c863442bf79
+      internalID: -480687200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -992,6 +1432,14 @@ TextureImporter:
       Indikator_Interactable_1_48: 78290259
       Indikator_Interactable_1_49: 1089929001
       Indikator_Interactable_1_5: -687596849
+      Indikator_Interactable_1_50: 351032481
+      Indikator_Interactable_1_51: -1698184997
+      Indikator_Interactable_1_52: 300849271
+      Indikator_Interactable_1_53: 1638992823
+      Indikator_Interactable_1_54: 1308002902
+      Indikator_Interactable_1_55: -1615390409
+      Indikator_Interactable_1_56: -1226519547
+      Indikator_Interactable_1_57: -480687200
       Indikator_Interactable_1_6: -284521922
       Indikator_Interactable_1_7: 717709147
       Indikator_Interactable_1_8: -1857978837
