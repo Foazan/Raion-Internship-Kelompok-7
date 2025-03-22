@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource doorOpening;
     [SerializeField] private AudioSource playerWalking;
     [SerializeField] private AudioSource Cashier;
+    
 
     private void Awake()
     {
@@ -34,7 +35,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayDoorOpening()
     {
-        if (doorOpening != null) doorOpening.Play();
+        doorOpening.Play();
     }
 
     public void PlayPlayerWalking()

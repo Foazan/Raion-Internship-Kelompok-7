@@ -38,7 +38,7 @@ public class MenuManager : MonoBehaviour
 
         blackScreen.color = Color.black;
         yield return new WaitForSeconds(2f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("JundiScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MarvinScene");
     }
 }
 

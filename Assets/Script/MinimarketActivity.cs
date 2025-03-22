@@ -76,6 +76,7 @@ public class MinimarketActivity : Activity
 
                 customerOrder[randomItem] += price * quantity; // Update total item
                 totalAmount += price * quantity; // Update total harga
+                
                 UpdateTotalDisplay();
                 yield return new WaitForSeconds(1f);
                 Debug.Log($"Ditambahkan: {randomItem} - Harga: {price} x {quantity}. Total: {totalAmount}");

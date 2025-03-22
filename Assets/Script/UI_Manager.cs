@@ -16,6 +16,7 @@ public class UI_Manager : MonoBehaviour
     public GameObject interactMessage;
     [SerializeField] private GameObject menuText;
     [SerializeField] private TextMeshProUGUI tutorialText;
+    [SerializeField] private GameObject tutorialBox;
     [SerializeField] private GameObject menuBox;
     [SerializeField] private GameObject npcPortraitNormal;
     [SerializeField] private GameObject npcPortraitAngry;
@@ -42,6 +43,7 @@ public class UI_Manager : MonoBehaviour
 
         menuText.SetActive(false);
         interactMessage.SetActive(false);
+        tutorialBox.SetActive(false);
         HideRestaurantBackground();
         HideNpcPortrait();
         HideNpcPortraitCenter();
@@ -117,6 +119,7 @@ public class UI_Manager : MonoBehaviour
 
         while (tutorialQueue.Count > 0)
         {
+            tutorialBox.SetActive(true);
             tutorialText.text = "";
             string currentMessage = tutorialQueue.Dequeue();
 
@@ -131,7 +134,7 @@ public class UI_Manager : MonoBehaviour
 
         isTutorialDisplaying = false;
         tutorialText.text = "";
-        
+        tutorialBox.SetActive(false);
     }
 
     public void ClearText()

@@ -63,12 +63,13 @@ public class StatsActivity : Activity
     {
         bool isRestaurant = gameObject.name == "Restaurant";
         bool isMinimarket = gameObject.name == "marketMinigame";
-        if (other.CompareTag("Player") && gameManager.currentTime != "Siang" && !isMinimarket && !isRestaurant)
+        if (other.CompareTag("Player") && !isMinimarket && !isRestaurant)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && gameManager.currentTime != "Siang")
             {
                 StartActivity();
             }
+
         }
     }
 
@@ -120,6 +121,8 @@ public class StatsActivity : Activity
 
     private IEnumerator WaitToBlack(float a)
     {
+        bool isPark = gameObject.name == "Gerbang_Taman";
+        
         yield return new WaitForSeconds(a);
 
         gameManager.setNotSleeping();
@@ -132,7 +135,6 @@ public class StatsActivity : Activity
         {
             gameManager.AdvanceTime();
         }
-        bool isPark = gameObject.name == "Gerbang_Taman";
         if (isPark && currentDay == 1 && gameManager.currentTime == "Siang")
         {
             uiManager.ShowText("Alright. I feel much better. Now I should try to get money.", "Linne");

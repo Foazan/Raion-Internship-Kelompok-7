@@ -150,6 +150,7 @@ public class RestaurantActivity : Activity
         uiManager.DisplayOrder();
 
         ShowAddedItem(item);
+        
 
         if (IsOrderComplete())
         {
